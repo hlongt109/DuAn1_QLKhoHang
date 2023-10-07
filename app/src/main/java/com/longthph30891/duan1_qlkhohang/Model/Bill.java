@@ -8,4 +8,6 @@ public class Bill {
     String quantity; // >0 nhap kho, <0 xuat kho
     String createdByUser; // nguoi tao
     String createdDate; // ngay tao
+    String note;// ghi chu truong hop dac biet
+
 }
