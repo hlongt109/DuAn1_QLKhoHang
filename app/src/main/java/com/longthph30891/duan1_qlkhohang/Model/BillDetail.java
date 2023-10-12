@@ -9,5 +9,5 @@ public class BillDetail {
     String quantity;// so luong sp
     String createdDate; //
     // viet nhieu cac thuoc tinh khac tu nghi ra
-
+    //
 }

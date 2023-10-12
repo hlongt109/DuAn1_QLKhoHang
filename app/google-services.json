@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "977560206096",
+    "project_id": "quan-ly-kho-hang-bbd54",
+    "storage_bucket": "quan-ly-kho-hang-bbd54.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977560206096:android:47f48c67c5806571a54395",
+        "android_client_info": {
+          "package_name": "com.longthph30891.duan1_qlkhohang"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn-66VrowfUmtyEZWaywx6v4fZdsqZPm0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

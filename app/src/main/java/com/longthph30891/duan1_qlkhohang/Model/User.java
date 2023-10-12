@@ -13,4 +13,5 @@ public class User {
     String lastLogin; // lan cuoi login
     String createDate; // ngay tao tai khoan
     String lastAction; //hanh dong cuoi tren he thong
+
 }

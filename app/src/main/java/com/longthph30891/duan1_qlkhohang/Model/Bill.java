@@ -9,5 +9,5 @@ public class Bill {
     String createdByUser; // nguoi tao
     String createdDate; // ngay tao
     String note;// ghi chu truong hop dac biet
-
+    //
 }
