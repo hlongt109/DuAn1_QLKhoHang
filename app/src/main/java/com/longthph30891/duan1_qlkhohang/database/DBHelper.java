@@ -12,6 +12,18 @@ public class DBHelper extends SQLiteOpenHelper {
     // tao bang Bill
     String create_table_bill = "Create table Bill (id integer primary key autoincrement, quantity integer, createdByUser text, createdDate text, note text)";
     // tao bang user
+    String CREATE_USER_TABLE = "CREATE TABLE " + "USER" +" (" +
+            "username" + " TEXT PRIMARY KEY," +
+            "password" + " TEXT," +
+            "numberphone" + " TEXT," +
+            "position" + " INTEGER," +
+            "avatar" + " TEXT," +
+            "profile" + " TEXT," +
+            "lastLogin" + " TEXT," +
+            "createDate" + " TEXT," +
+            "lastAction" + " TEXT" +
+            ")";
+    String dataus = "INSERT INTO USER VALUES('longthph30891','longthph30891','0869070822','1','Long - admin','14/10/2023','13/10/2023','Thêm hóa đơn')";
 
     // tao bang product
     String create_table_product = "Create table Product(id integer primary key autoincrement, name text , quantity integer, price text, photo text, userID text)";
@@ -26,6 +38,9 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(create_table_bill);
         db.execSQL(create_table_product);
         db.execSQL(create_table_billDetail);
+        db.execSQL(CREATE_USER_TABLE);
+        // tạo dữ liệu
+        db.execSQL(dataus);
     }
 
     @Override
