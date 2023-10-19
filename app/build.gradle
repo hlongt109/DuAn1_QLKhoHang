@@ -43,5 +43,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     // Cloud firestore
     implementation 'com.google.firebase:firebase-firestore'
+    //circleimageview
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 }
