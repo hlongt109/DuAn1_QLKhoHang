@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-  <item android:id="@+id/nav_HoaDon"
-      android:icon="@drawable/bill"
-      android:title="Hóa Đơn"/>
+  <item android:id="@+id/nav_Nguoidung"
+      android:icon="@drawable/ic_people"
+      android:title="Thành Viên"/>
+  <item android:id="@+id/nav_LoaiSanpham"
+      android:icon="@drawable/boxes"
+      android:title="Loại Sản Phẩm"/>
   <item android:id="@+id/nav_Sanpham"
       android:icon="@drawable/product"
       android:title="Sản Phẩm"/>
-  <item android:id="@+id/nav_Nguoidung"
-      android:icon="@drawable/ic_people"
-      android:title="Người dùng"/>
+  <item android:id="@+id/nav_HoaDon"
+      android:icon="@drawable/bill"
+      android:title="Phiếu Xuất Kho"/>
   <group android:checkableBehavior="single">
     <item android:title="Thống kê">
       <menu>

@@ -18,6 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#272f54"
+                app:titleTextColor="#E1DFDF"
                 android:id="@+id/toolbar1"
                 android:minHeight="?attr/actionBarSize"/>
         </com.google.android.material.appbar.AppBarLayout>
@@ -32,8 +33,5 @@
         android:id="@+id/nvMenu"
         app:headerLayout="@layout/header"
         app:menu="@menu/nav_view"
-        app:itemTextColor="#3A3732"
-        app:subheaderColor="#3A3732"
-        android:layout_gravity="start"
-        android:theme="@style/ThemeOverlay.AppCompat.Light"/>
+        android:layout_gravity="start"/>
 </androidx.drawerlayout.widget.DrawerLayout>

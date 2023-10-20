@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DuAn1_QLKhoHang</string>
+    <string name="close">Close nav</string>
+    <string name="open">Open nav</string>
 </resources>
