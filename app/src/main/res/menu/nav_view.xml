@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-  <item android:id="@+id/nav_Nguoidung"
-      android:icon="@drawable/ic_people"
-      android:title="Thành Viên"/>
   <item android:id="@+id/nav_LoaiSanpham"
       android:icon="@drawable/boxes"
       android:title="Loại Sản Phẩm"/>
@@ -12,6 +9,9 @@
   <item android:id="@+id/nav_HoaDon"
       android:icon="@drawable/bill"
       android:title="Phiếu Xuất Kho"/>
+  <item android:id="@+id/nav_Nguoidung"
+      android:icon="@drawable/ic_people"
+      android:title="Thành Viên"/>
   <group android:checkableBehavior="single">
     <item android:title="Thống kê">
       <menu>
@@ -24,6 +24,9 @@
   <group android:checkableBehavior="single">
     <item android:title="Khác">
       <menu>
+        <item android:id="@+id/nav_CreateUser"
+            android:icon="@drawable/ic_person_add"
+            android:title="Tạo người dùng"/>
         <item android:id="@+id/nav_Logout"
             android:icon="@drawable/ic_logout"
           android:title="Đăng xuất"/>
