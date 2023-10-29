@@ -4,11 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
    <item android:id="@+id/item_add"
        android:title="Add new"
-       android:icon="@drawable/ic_add"
+       android:icon="@drawable/add"
        app:showAsAction="always"/>
    <item android:id="@+id/item_search"
        android:title="Search"
        app:showAsAction="ifRoom"
-       android:icon="@drawable/ic_search"
+       android:icon="@drawable/search"
        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 </menu>
