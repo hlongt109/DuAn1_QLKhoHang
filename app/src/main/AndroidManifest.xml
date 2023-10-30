@@ -13,10 +13,10 @@
         android:theme="@style/Theme.DuAn1_QLKhoHang"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.admin.UserListActivity"
+            android:name=".Activities.UpdateProduct_Activity"
             android:exported="false" />
         <activity
-            android:name=".Activities.SplashActivity"
+            android:name=".Activities.CreateProduct_Activity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +24,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activities.Product_Activity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".Activities.admin.UserListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.SplashActivity"
+            android:exported="false" />
         <activity
             android:name=".Activities.admin.UpdateProductActivity"
             android:exported="false" />
@@ -38,13 +47,7 @@
             android:exported="false" />
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>
