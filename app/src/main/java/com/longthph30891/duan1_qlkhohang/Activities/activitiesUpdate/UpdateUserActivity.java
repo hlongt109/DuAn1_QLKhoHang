@@ -1,4 +1,4 @@
-package com.longthph30891.duan1_qlkhohang.Activities.admin;
+package com.longthph30891.duan1_qlkhohang.Activities.activitiesUpdate;
 
 import androidx.appcompat.app.AppCompatActivity;
 

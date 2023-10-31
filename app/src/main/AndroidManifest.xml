@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,17 +13,19 @@
         android:theme="@style/Theme.DuAn1_QLKhoHang"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.UpdateProduct_Activity"
+            android:name=".Activities.StatisticActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.CreateProduct_Activity"
-            android:exported="true">
-        </activity>
+            android:name=".Activities.activitiesUpdate.UpdateProduct_Activity"
+            android:exported="false" />
         <activity
-            android:name=".Activities.Product_Activity"
-            android:exported="true"></activity>
+            android:name=".Activities.activitiesCreate.CreateProduct_Activity"
+            android:exported="false"></activity>
         <activity
-            android:name=".Activities.admin.UserListActivity"
+            android:name=".Activities.activitiesManagementScreen.UserListActivity"
+            android:exported="false"></activity>
+        <activity
+            android:name=".Activities.activitiesManagementScreen.ProductListActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.SplashActivity"
@@ -35,20 +37,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.admin.UpdateProductActivity"
+            android:name=".Activities.activitiesManagementScreen.ProductTypeListActivity"
+            android:exported="false"></activity>
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:exported="false"></activity>
+        <activity
+            android:name=".Activities.activitiesUpdate.UpdateProductActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.admin.UpdateUserActivity"
+            android:name=".Activities.activitiesUpdate.UpdateUserActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.BillListActivity"
+            android:name=".Activities.activitiesManagementScreen.BillListActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.CreateBillActivity"
+            android:name=".Activities.activitiesCreate.CreateBillActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

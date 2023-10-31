@@ -1,4 +1,4 @@
-package com.longthph30891.duan1_qlkhohang.Activities;
+package com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;

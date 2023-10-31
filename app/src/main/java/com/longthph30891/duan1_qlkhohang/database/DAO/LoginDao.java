@@ -7,6 +7,10 @@ public class LoginDao {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     public interface AdminCheckCallback {
         void onCheckAdmin(boolean isAdmin);
+
+
+    }
+    public interface UserCheckCallback {
         void onCheckUser(boolean isUser);
     }
 
@@ -30,9 +34,9 @@ public class LoginDao {
                 });
         return false;
     }
-    public boolean checkUser(String usn, String pass, AdminCheckCallback callback) {
+    public boolean checkUser(String usn, String pass, UserCheckCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Users")
+        db.collection("User")
                 .whereEqualTo("username", usn)
                 .get()
                 .addOnCompleteListener(task -> {

@@ -1,4 +1,4 @@
-package com.longthph30891.duan1_qlkhohang.Activities.admin;
+package com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.longthph30891.duan1_qlkhohang.Activities.activitiesCreate.CreateProductTypeActivity;
 import com.longthph30891.duan1_qlkhohang.R;
 
 public class ProductTypeListActivity extends AppCompatActivity {

@@ -13,6 +13,10 @@ public class Admin {
         this.avatar = avatar;
     }
 
+    public Admin(String avatar) {
+        this.avatar = avatar;
+    }
+
     public String getAvatar() {
         return avatar;
     }

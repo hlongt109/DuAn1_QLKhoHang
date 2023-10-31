@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#c6dde7"
     android:orientation="vertical"
-    tools:context=".Activities.admin.CreateProductTypeActivity">
+    tools:context=".Activities.activitiesCreate.CreateProductTypeActivity">
 
 
     <View

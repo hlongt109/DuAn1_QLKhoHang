@@ -1,4 +1,4 @@
-package com.longthph30891.duan1_qlkhohang.Activities;
+package com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -7,13 +7,12 @@ import androidx.core.content.ContextCompat;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.longthph30891.duan1_qlkhohang.R;
 
-public class Product_Activity extends AppCompatActivity {
+public class ProductListActivity extends AppCompatActivity {
     Toolbar toolbar;
     FirebaseFirestore database;
     @SuppressLint("MissingInflatedId")

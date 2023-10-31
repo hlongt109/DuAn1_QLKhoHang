@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#c6dde7"
-    tools:context=".Activities.CreateProduct_Activity">
+    tools:context=".Activities.activitiesCreate.CreateProduct_Activity">
 
     <View
         android:layout_width="match_parent"
