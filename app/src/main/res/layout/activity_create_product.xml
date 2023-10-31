@@ -15,41 +15,30 @@
         android:id="@+id/topView"/>
 
     <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/back"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/btn_updateProductBack"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Products"
+        android:textSize="24dp"
+        android:textColor="#2A434E"
+        android:textStyle="bold"
+        android:layout_marginTop="19dp"
+        android:layout_marginLeft="80dp"/>
+
+    <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="80dp"
         android:src="@drawable/img"
         android:id="@+id/img_Product"
         android:layout_centerHorizontal="true"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create Product"
-        android:textColor="#568CA5"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_below="@id/img_Product"
-        android:gravity="center"
-        android:layout_marginTop="10dp"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/in_addID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        app:startIconDrawable="@drawable/edit"
-        android:layout_below="@id/img_Product"
-        app:boxBackgroundColor="#6F43778E"
-        android:layout_marginTop="60dp">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ed_addID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:padding="20dp"
-            android:hint="ID"/>
-    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/in_addName"
@@ -57,7 +46,7 @@
         android:layout_height="wrap_content"
         app:startIconDrawable="@drawable/name"
         android:layout_marginHorizontal="10dp"
-        android:layout_below="@id/in_addID"
+        android:layout_below="@id/img_Product"
         app:boxBackgroundColor="#6F43778E"
         android:layout_marginTop="10dp">
         <com.google.android.material.textfield.TextInputEditText
@@ -66,6 +55,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:padding="20dp"
+            android:textSize="20dp"
             android:hint="Name"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,6 +74,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:padding="20dp"
+            android:textSize="20dp"
             android:hint="Quantity"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,6 +93,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:padding="20dp"
+            android:textSize="20dp"
             android:hint="Price"/>
     </com.google.android.material.textfield.TextInputLayout>
 
