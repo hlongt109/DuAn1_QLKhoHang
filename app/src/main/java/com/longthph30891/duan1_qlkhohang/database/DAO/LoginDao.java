@@ -9,6 +9,7 @@ public class LoginDao {
         void onCheckAdmin(boolean isAdmin);
 
 
+        void onCheckUser(boolean isUser);
     }
     public interface UserCheckCallback {
         void onCheckUser(boolean isUser);
