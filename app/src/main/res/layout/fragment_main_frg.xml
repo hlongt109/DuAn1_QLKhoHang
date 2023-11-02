@@ -43,10 +43,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Hi Tran Hoang Long"
+                android:text="Hi Long Thien Phong"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:textColor="#404C8E"
+                android:textColor="#353D68"
                 android:id="@+id/tvName_Main"
                 android:paddingHorizontal="15dp"/>
             <TextView

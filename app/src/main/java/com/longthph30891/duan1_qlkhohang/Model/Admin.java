@@ -53,4 +53,9 @@ public class Admin {
         admin.put("avatar",avatar);
         return admin;
     }
+    public HashMap<String,Object> convertHashMap2(){
+        HashMap<String,Object> admin = new HashMap<>();
+        admin.put("avatar",avatar);
+        return admin;
+    }
 }
