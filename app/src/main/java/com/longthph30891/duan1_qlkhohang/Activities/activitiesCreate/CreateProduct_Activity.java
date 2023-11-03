@@ -17,8 +17,6 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.ProductListActivity;
 import com.longthph30891.duan1_qlkhohang.Model.Product;
 import com.longthph30891.duan1_qlkhohang.R;

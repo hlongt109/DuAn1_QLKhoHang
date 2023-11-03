@@ -20,7 +20,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.ProductListActivity;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesUpdate.UpdateProduct_Activity;
 import com.longthph30891.duan1_qlkhohang.Model.Product;
 import com.longthph30891.duan1_qlkhohang.R;
