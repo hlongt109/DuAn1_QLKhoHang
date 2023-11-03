@@ -5,33 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#c6dde7"
-    tools:context=".Activities.activitiesUpdate.UpdateUserActivity">
+    tools:context=".Activities.activitiesCreate.CreateUserActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <View
+            android:id="@+id/topView"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/background_view_topleft"/>
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Update User"
+            android:text="Create User"
+            android:textSize="30sp"
+            android:textColor="#3D4363"
             android:textStyle="bold"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:textColor="#020"
-            android:textSize="25sp"/>
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"/>
         <LinearLayout
             android:id="@+id/linearlayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:layout_below="@id/title">
             <ImageView
-                android:id="@+id/imgUser_update"
+                android:id="@+id/imgUser_create"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/khung"
                 android:src="@drawable/img"/>
             <TextView
@@ -49,7 +55,7 @@
             android:layout_below="@id/linearlayout2"
             android:orientation="vertical">
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_UserName_update"
+                android:id="@+id/til_UserName_create"
                 android:layout_below="@id/topView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,13 +64,13 @@
                 app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/baseline_person_24">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edUserName_update"
+                    android:id="@+id/edUserName_create"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#000"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_Pass_update"
+                android:id="@+id/til_Pass_create"
                 android:layout_marginVertical="10dp"
                 android:layout_below="@id/topView"
                 android:layout_width="match_parent"
@@ -73,12 +79,12 @@
                 app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/baseline_key_24">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edPass_update"
+                    android:id="@+id/edPass_create"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_PhoneNumber_update"
+                android:id="@+id/til_PhoneNumber_create"
                 android:layout_marginVertical="10dp"
                 android:layout_below="@id/topView"
                 android:layout_width="match_parent"
@@ -87,12 +93,12 @@
                 app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/ic_phone">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edPhoneNumber_update"
+                    android:id="@+id/edPhoneNumber_create"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_Position_update"
+                android:id="@+id/til_Position_create"
                 android:layout_marginVertical="10dp"
                 android:layout_below="@id/topView"
                 android:layout_width="match_parent"
@@ -101,12 +107,12 @@
                 app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/position">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edPosition_update"
+                    android:id="@+id/edPosition_create"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_Profile_update"
+                android:id="@+id/til_Profile_create"
                 android:layout_marginVertical="10dp"
                 android:layout_below="@id/topView"
                 android:layout_width="match_parent"
@@ -115,7 +121,7 @@
                 app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/ic_note">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edProfile_update"
+                    android:id="@+id/edProfile_create"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -133,7 +139,7 @@
             android:textColor="#202020"
             android:text="Save"
             android:textStyle="bold"
-            android:id="@+id/btnSave_User_update"/>
+            android:id="@+id/btnSave_User_create"/>
         <Button
             android:layout_width="120dp"
             android:layout_marginVertical="10dp"
@@ -147,7 +153,8 @@
             android:drawableLeft="@drawable/ic_cancel"
             android:text="Exit"
             android:textStyle="bold"
-            android:id="@+id/btnExit_User_update"/>
+            android:id="@+id/btnExit_User_create"/>
 
     </RelativeLayout>
+
 </ScrollView>

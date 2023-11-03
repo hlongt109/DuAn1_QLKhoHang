@@ -20,14 +20,14 @@
         android:id="@+id/topView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:paddingHorizontal="20dp">
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgAvatar_personal"
-            android:layout_width="95dp"
-            android:layout_height="95dp"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/usser"
             android:padding="5dp"
@@ -39,11 +39,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:layout_marginTop="8dp"
             android:paddingHorizontal="10dp"
-            android:text="abc"
-            android:textColor="#000"
-            android:textSize="20sp"
+            android:text="Long Thien Phong"
+            android:textColor="#404C8E"
+            android:textSize="22sp"
             android:textStyle="bold" />
         <androidx.cardview.widget.CardView
             android:id="@+id/nav_Logout"
@@ -66,6 +65,7 @@
                     android:layout_weight="9"
                     android:padding="5dp"
                     android:text="Đăng xuất "
+                    android:textColor="#151515"
                     android:textSize="20sp" />
                 <ImageView
                     android:layout_width="wrap_content"
@@ -108,6 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
                     android:padding="5dp"
+                    android:textColor="#151515"
                     android:text="Hóa đơn lưu trữ"
                     android:textSize="20sp" />
                 <ImageView
@@ -144,6 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
                     android:padding="5dp"
+                    android:textColor="#151515"
                     android:text="Lịch sử nhập kho"
                     android:textSize="20sp" />
                 <ImageView
@@ -180,6 +182,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
                     android:padding="5dp"
+                    android:textColor="#151515"
                     android:text="Lịch sử xuất kho"
                     android:textSize="20sp" />
                 <ImageView
@@ -216,6 +219,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
                     android:padding="5dp"
+                    android:textColor="#151515"
                     android:text="Đổi mật khẩu "
                     android:textSize="20sp" />
                 <ImageView
