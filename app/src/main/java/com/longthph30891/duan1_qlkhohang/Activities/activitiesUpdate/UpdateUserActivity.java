@@ -11,19 +11,24 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.UserListActivity;
 import com.longthph30891.duan1_qlkhohang.Model.User;
 import com.longthph30891.duan1_qlkhohang.database.DAO.userDAO;
 import com.longthph30891.duan1_qlkhohang.databinding.ActivityUpdateUserBinding;
 
+import java.util.UUID;
+
 
 public class UpdateUserActivity extends AppCompatActivity {
     private ActivityUpdateUserBinding binding;
-    private String imgUrl = "";
     private FirebaseFirestore database;
     private userDAO dao = new userDAO();
+    private Uri SelectedImgUri = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +54,8 @@ public class UpdateUserActivity extends AppCompatActivity {
     private void initData() {
         User user = (User) getIntent().getSerializableExtra("user");
         if (user!= null){
-            binding.imgUserUpdate.setImageURI(Uri.parse(user.getAvatar()));
+            String avatarUser = user.getAvatar();
+            Glide.with(this).load(avatarUser).into(binding.imgUserUpdate);
             binding.edUserNameUpdate.setText(user.getUsername());
             binding.edPassUpdate.setText(user.getPassword());
             binding.edPhoneNumberUpdate.setText(user.getNumberphone());
@@ -66,8 +72,8 @@ public class UpdateUserActivity extends AppCompatActivity {
         String phone = binding.edPhoneNumberUpdate.getText().toString();
         String position = binding.edPositionUpdate.getText().toString();
         String profile = binding.edProfileUpdate.getText().toString();
-        if (imgUrl.isEmpty()){
-            imgUrl = user.getAvatar();
+        if (SelectedImgUri == null){
+            SelectedImgUri = Uri.parse(user.getAvatar());
         }
         if(username.isEmpty() || password.isEmpty() || phone.isEmpty()|| position.isEmpty()||profile.isEmpty()){
             if(username.isEmpty()){
@@ -96,15 +102,24 @@ public class UpdateUserActivity extends AppCompatActivity {
                 binding.tilProfileUpdate.setError(null);
             }
         }else {
+            try {
+                int pst = Integer.parseInt(position);
+                if(pst < 0 || pst >1){
+                    binding.tilPositionUpdate.setError("Position chỉ từ 0 - 1");
+                    return;
+                }else {
+                    binding.tilPositionUpdate.setError(null);
+                }
+            }catch (NumberFormatException e){
+                binding.tilPositionUpdate.setError("Position là số từ 0 - 1");
+                return;
+            }
             if(!username.equals(user.getUsername())){
-                dao.checkUserNameExist(username, new userDAO.CheckUserNameCallBack() {
-                    @Override
-                    public void onCheckUserName(boolean exists) {
-                        if (exists){
-                            binding.tilUserNameUpdate.setError("username đã tồn tại !");
-                        }else {
-                           update(user,username,password,phone,position,profile);
-                        }
+                dao.checkUserNameExist(username, exists -> {
+                    if (exists){
+                        binding.tilUserNameUpdate.setError("username đã tồn tại !");
+                    }else {
+                       update(user,username,password,phone,position,profile);
                     }
                 });
             }else {
@@ -113,40 +128,41 @@ public class UpdateUserActivity extends AppCompatActivity {
         }
     }
     private void update(User user,String username,String pass, String phone,String position,String profile){
-        try {
-            int pst = Integer.parseInt(position);
-            if(pst < 0 || pst >1){
-                binding.tilPositionUpdate.setError("Position chỉ từ 0 - 1");
-                return;
-            }else {
-                binding.tilPositionUpdate.setError(null);
-            }
-        }catch (NumberFormatException e){
-            binding.tilPositionUpdate.setError("Position là số từ 0 - 1");
-            return;
+        if(SelectedImgUri != null){
+            String imgFileName = UUID.randomUUID().toString()+".jpg";
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference reference = storage.getReference();
+            StorageReference imagesRef = reference.child("image user");
+            StorageReference image = imagesRef.child(imgFileName);
+            image.putFile(SelectedImgUri).addOnSuccessListener(taskSnapshot -> {
+                image.getDownloadUrl().addOnSuccessListener(uri -> {
+                    String imageUrl = uri.toString();
+                    int posi = Integer.parseInt(position);
+                    user.setUsername(username);user.setPassword(pass);
+                    user.setNumberphone(phone);
+                    user.setPosition(posi);
+                    user.setProfile(profile);
+                    user.setAvatar(imageUrl);
+                    database.collection("User").document(user.getUsername()).update(user.convertHashMap()).addOnSuccessListener(unused ->{
+                        Toast.makeText(UpdateUserActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                        lastAction(username);
+                    }).addOnFailureListener(e ->
+                            Toast.makeText(UpdateUserActivity.this, "Lỗi cập nhật", Toast.LENGTH_SHORT).show());
+                    Intent intent = new Intent(UpdateUserActivity.this, UserListActivity.class);
+                    startActivity(intent);
+                });
+            }).addOnFailureListener(e -> {
+                Toast.makeText(this, "Lỗi tải hình ảnh lên", Toast.LENGTH_SHORT).show();
+            });
         }
-        int posi = Integer.parseInt(position);
-        user.setUsername(username);user.setPassword(pass);
-        user.setNumberphone(phone);
-        user.setPosition(posi);
-        user.setProfile(profile);
-        user.setAvatar(imgUrl);
-        database.collection("User").document(user.getUsername()).update(user.convertHashMap()).addOnSuccessListener(unused ->{
-            Toast.makeText(UpdateUserActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-            lastAction(username);
-        }).addOnFailureListener(e ->
-                Toast.makeText(UpdateUserActivity.this, "Lỗi cập nhật", Toast.LENGTH_SHORT).show());
-        Intent intent = new Intent(UpdateUserActivity.this, UserListActivity.class);
-        startActivity(intent);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK && data!= null){
-            Uri uri = data.getData();
+            SelectedImgUri = data.getData();
             if(binding.imgUserUpdate != null){
-                binding.imgUserUpdate.setImageURI(uri);
-                imgUrl = uri.toString();
+                binding.imgUserUpdate.setImageURI(SelectedImgUri);
             }
         }
     }

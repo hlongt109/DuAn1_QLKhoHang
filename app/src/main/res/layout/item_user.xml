@@ -160,7 +160,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/linearlayout"
-                android:text="Create Date : "
+                android:text="Create Date :"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -187,7 +187,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/linearlayout"
-                android:text="Last login : "
+                android:text="Last login :"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -218,8 +218,7 @@
             android:id="@+id/tv_last_action_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="abcde "
-            android:paddingHorizontal="10dp"
-            android:textSize="16sp"/>
+            android:text="abcde"
+            android:textSize="15sp"/>
     </LinearLayout>
 </RelativeLayout>
