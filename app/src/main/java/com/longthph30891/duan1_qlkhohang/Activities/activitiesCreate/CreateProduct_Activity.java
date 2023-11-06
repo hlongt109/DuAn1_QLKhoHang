@@ -70,64 +70,73 @@ public class CreateProduct_Activity extends AppCompatActivity {
     }
 
     private void add_product() {
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String name = binding.edAddName.getText().toString();
         String priceStr = binding.edAddPrice.getText().toString();
         String quantityStr = binding.edAddQuantity.getText().toString();
         String date = dateFormat.format(new Date());
 
-        if(name.isEmpty() || priceStr.isEmpty() || quantityStr.isEmpty()){
-            if(name.isEmpty()){
+        if (name.isEmpty() || priceStr.isEmpty() || quantityStr.isEmpty() ||  selectedImageUrl.isEmpty()) {
+            if (name.isEmpty()) {
                 binding.inAddName.setError("Vui lòng không để trống tên sản phẩm!");
-            }else{
+            } else {
                 binding.inAddName.setError(null);
             }
 
-            if(priceStr.isEmpty()){
+            if (priceStr.isEmpty()) {
                 binding.inAddPrice.setError("Vui lòng không để trống giá sản phẩm!");
-            }else{
+            } else {
                 binding.inAddPrice.setError(null);
             }
 
-            if(quantityStr.isEmpty()){
+            if (quantityStr.isEmpty()) {
                 binding.inAddQuantity.setError("Vui lòng không để trống số lượng");
-            }else{
+            } else {
                 binding.inAddQuantity.setError(null);
             }
-        }else{
+
+            if (selectedImageUrl.isEmpty()) {
+                Toast.makeText(this, "Vui lòng chọn ảnh sản phẩm", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            int price, quantity;
             try {
-                int price = Integer.parseInt(priceStr);
-                int quantity = Integer.parseInt(quantityStr);
-
-                if (price < 0) {
-                    binding.inAddPrice.setError("Giá sản phẩm phải lớn hơn 0");
-                } else if (quantity < 0) {
-                    binding.inAddQuantity.setError("Số lượng sản phẩm phải lớn hơn 0");
-                } else {
-                    String id = UUID.randomUUID().toString();
-                    Product pd = new Product(id,name,quantity,price,selectedImageUrl, date);
-                    HashMap<String, Object> mapPD = pd.converHashMap();
-                    database.collection("Product").document(id).set(mapPD).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Toast.makeText(context, "Thêm sản phẩm " + name + " thành công", Toast.LENGTH_SHORT).show();
-                            binding.edAddName.setText("");
-                            binding.edAddPrice.setText("");
-                            binding.edAddQuantity.setText("");
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(context, "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                }
+                price = Integer.parseInt(priceStr);
             } catch (NumberFormatException e) {
-                // Xử lý lỗi khi giá trị không phải số nguyên
-                binding.inAddPrice.setError("Giá và số lượng phải là số nguyên");
-                binding.inAddQuantity.setError("Giá và số lượng phải là số nguyên");
+                binding.inAddPrice.setError("Giá phải là số nguyên");
+                return;
+            }
+
+            try {
+                quantity = Integer.parseInt(quantityStr);
+            } catch (NumberFormatException e) {
+                binding.inAddQuantity.setError("Số lượng phải là số nguyên");
+                return;
+            }
+
+            if (price < 0) {
+                binding.inAddPrice.setError("Giá sản phẩm phải lớn hơn 0");
+            } else if (quantity < 0) {
+                binding.inAddQuantity.setError("Số lượng sản phẩm phải lớn hơn 0");
+            } else {
+                String id = UUID.randomUUID().toString();
+                Product pd = new Product(id, name, quantity, price, selectedImageUrl, date);
+                HashMap<String, Object> mapPD = pd.converHashMap();
+                database.collection("Product").document(id).set(mapPD).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(context, "Thêm sản phẩm " + name + " thành công", Toast.LENGTH_SHORT).show();
+                        binding.imgProduct.setImageResource(R.drawable.img);
+                        binding.edAddName.setText("");
+                        binding.edAddPrice.setText("");
+                        binding.edAddQuantity.setText("");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         }
     }

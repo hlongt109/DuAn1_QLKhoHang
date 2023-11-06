@@ -1,12 +1,13 @@
 package com.longthph30891.duan1_qlkhohang.Model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /*
  * Created by Longthph30891 07/10/2023
  * update by
  * */
-public class Product {
+public class Product implements Serializable {
     String id; // khoa chinh, auto 0 - n
     String name; // ten sp
     int quantity;// so luong sp
