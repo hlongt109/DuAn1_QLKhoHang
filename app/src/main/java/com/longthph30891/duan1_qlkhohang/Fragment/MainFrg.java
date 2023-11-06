@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -31,7 +30,6 @@ public class MainFrg extends Fragment {
         binding = FragmentMainFrgBinding.inflate(inflater,container,false);
         initMenu();
         display();
-        chucVu();
         return binding.getRoot();
     }
     public void initMenu(){
@@ -66,15 +64,5 @@ public class MainFrg extends Fragment {
                 });
             }
         });
-    }
-    public void chucVu(){
-        SharedPreferences s = getActivity().getSharedPreferences("ReLogin.txt", Context.MODE_PRIVATE);
-        int position = s.getInt("pos",-1);
-        if (position == 1){
-            binding.navQlUsers.setClickable(false);
-            binding.navQlUsers.setOnClickListener(v -> {
-                Toast.makeText(getActivity(), "Chỉ admin", Toast.LENGTH_SHORT).show();
-            });
-        }
     }
 }

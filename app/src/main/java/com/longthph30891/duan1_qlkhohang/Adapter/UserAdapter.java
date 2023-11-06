@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,17 +20,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesUpdate.UpdateUserActivity;
 import com.longthph30891.duan1_qlkhohang.Model.User;
 import com.longthph30891.duan1_qlkhohang.R;
-import com.longthph30891.duan1_qlkhohang.database.DAO.userDAO;
-
 import java.util.ArrayList;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private final Context context;
     private final ArrayList<User> list;
-    private FirebaseFirestore database;
-    private userDAO dao = new userDAO();
-
-    public UserAdapter(Context context, ArrayList<User> list, FirebaseFirestore database) {
+    FirebaseFirestore database;
+    public UserAdapter(Context context, ArrayList<User> list,FirebaseFirestore database) {
         this.context = context;
         this.list = list;
         this.database = database;
@@ -41,8 +35,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @NonNull
     @Override
     public UserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-        View view = inflater.inflate(R.layout.item_user, parent, false);
+        LayoutInflater inflater = ((Activity)context).getLayoutInflater();
+        View view = inflater.inflate(R.layout.item_user,parent,false);
         return new ViewHolder(view);
     }
 
@@ -57,9 +51,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.tvLastLogin.setText(list.get(position).getLastLogin());
         holder.tvLastAction.setText(list.get(position).getLastAction());
         int chucVu = user.getPosition();
-        if (chucVu == 0) {
+        if(chucVu == 0){
             holder.tvPosition.setText("Admin");
-        } else if (chucVu == 1) {
+        }else if(chucVu == 1){
             holder.tvPosition.setText("Nhân Viên");
         }
         Glide.with(context).load(user.getAvatar())
@@ -70,23 +64,21 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             openDialogDelete(user);
             return true;
         });
-        holder.itemView.setOnClickListener(v -> {
+        holder.itemView.setOnClickListener(v ->{
             Intent intent = new Intent(context, UpdateUserActivity.class);
             intent.putExtra("user", user);
             context.startActivity(intent);
         });
     }
-
-    private void openDialogDelete(User user) {
+    private void openDialogDelete(User user){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Thông Báo !");
         builder.setMessage("Bạn muốn xóa không ?");
-        builder.setNegativeButton("No", null);
-        builder.setPositiveButton("Yes", (dialog, which) -> {
-            database.collection("User").document(user.getUsername()).delete().addOnSuccessListener(unused -> {
-                Toast.makeText(context, "Xóa thành công !", Toast.LENGTH_SHORT).show();
-                lastAction(user.getUsername());
-            }).addOnFailureListener(e ->
+        builder.setNegativeButton("No",null);
+        builder.setPositiveButton("Ok", (dialog, which) -> {
+            database.collection("User").document(user.getUsername()).delete().addOnSuccessListener(unused ->
+                    Toast.makeText(context, "Xóa thành công !", Toast.LENGTH_SHORT).show()
+            ).addOnFailureListener(e ->
                     Toast.makeText(context, "Lỗi xóa", Toast.LENGTH_SHORT).show());
         });
         builder.create().show();
@@ -99,8 +91,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgAvatar;
-        TextView tvNameUser, tvPassword, tvPhoneNumber, tvPosition, tvProfile, tvCreateDate, tvLastLogin, tvLastAction;
-
+        TextView tvNameUser, tvPassword, tvPhoneNumber,tvPosition,tvProfile,tvCreateDate, tvLastLogin,tvLastAction;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgAvatar = itemView.findViewById(R.id.img_avatar_user_item);
@@ -114,13 +105,5 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             tvLastAction = itemView.findViewById(R.id.tv_last_action_item);
         }
 
-    }
-    public void lastAction(String tk){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("ReLogin.txt", Context.MODE_PRIVATE);
-        String usn = sharedPreferences.getString("usn","");
-        dao.lastAction(usn, "Deleted "+tk+" account", unused -> {
-        }, e -> {
-            Log.d("Action Error", "Action Error");
-        });
     }
 }

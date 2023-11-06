@@ -1,6 +1,5 @@
 package com.longthph30891.duan1_qlkhohang.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,11 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.longthph30891.duan1_qlkhohang.database.DAO.userDAO;
 import com.longthph30891.duan1_qlkhohang.databinding.ActivityLoginBinding;
 
@@ -53,18 +49,12 @@ public class LoginActivity extends AppCompatActivity {
                if(isUser){
                    if("admin".equals(position)){
                        SharePre(usn,0,true);
-                       uDAO.lastLogin(usn, unused -> {}, e -> {
-                           Log.d("Last Login Error","Last Login Error");
-                       });
                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                        startActivity(intent);
                        finish();
                        Toast.makeText(this, "Welcome "+usn, Toast.LENGTH_SHORT).show();
                    } else if ("user".equals(position)) {
                        SharePre(usn,1,true);
-                       uDAO.lastLogin(usn, unused -> {}, e -> {
-                           Log.d("Last Login Error","Last Login Error");
-                       });
                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                        startActivity(intent);
                        finish();

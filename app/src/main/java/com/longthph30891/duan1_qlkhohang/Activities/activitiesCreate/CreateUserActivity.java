@@ -1,41 +1,29 @@
 package com.longthph30891.duan1_qlkhohang.Activities.activitiesCreate;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.UserListActivity;
 import com.longthph30891.duan1_qlkhohang.Model.User;
 import com.longthph30891.duan1_qlkhohang.R;
-import com.longthph30891.duan1_qlkhohang.database.DAO.userDAO;
 import com.longthph30891.duan1_qlkhohang.databinding.ActivityCreateUserBinding;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.UUID;
 
 public class CreateUserActivity extends AppCompatActivity {
     private ActivityCreateUserBinding binding;
-    private Uri SelectedImgUri = null;
-    private FirebaseFirestore database;
+    private String urlImg = "";
+    FirebaseFirestore database;
     String createdDate;
-    private userDAO uDao = new userDAO();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +59,7 @@ public class CreateUserActivity extends AppCompatActivity {
         String phone = binding.edPhoneNumberCreate.getText().toString();
         String position = binding.edPositionCreate.getText().toString();
         String profile = binding.edProfileCreate.getText().toString();
-        if (username.isEmpty() || password.isEmpty() || phone.isEmpty() || position.isEmpty() || profile.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty() || phone.isEmpty() || position.isEmpty() || profile.isEmpty() || urlImg.isEmpty()) {
             if (username.isEmpty()) {
                 binding.tilUserNameCreate.setError("Không được để trống username");
             } else {
@@ -97,60 +85,39 @@ public class CreateUserActivity extends AppCompatActivity {
             } else {
                 binding.tilProfileCreate.setError(null);
             }
+            if (urlImg.isEmpty()) {
+                Toast.makeText(this, "Chưa chọn ảnh", Toast.LENGTH_SHORT).show();
+            }
         } else {
-            uDao.checkUserNameExist(username, exists -> {
-                if(exists){
-                    binding.tilUserNameCreate.setError("username đã tồn tại !");
-                }else {
-                    try {
-                        int positionUser = Integer.parseInt(position);
-                        if (positionUser < 0 || positionUser > 1) {
-                            binding.tilPositionCreate.setError("Position là số 0 - 1");
-                            return;
-                        }
-                    } catch (NumberFormatException e) {
-                        binding.tilPositionCreate.setError("Position là số 0 - 1");
-                        return;
-                    }
-                    createNewUser(username,password,phone,position,profile);
+            try {
+                int positionUser = Integer.parseInt(position);
+                if (positionUser < 0 || positionUser > 1) {
+                    binding.tilPositionCreate.setError("Position là số 0 - 1");
+                    return;
                 }
-            });
+            } catch (NumberFormatException e) {
+                binding.tilPositionCreate.setError("Position là số 0 - 1");
+                return;
+            }
+            int positionUser = Integer.parseInt(position);
+            User user = new User(username, password, phone, positionUser, urlImg, profile, createdDate);
+            HashMap<String, Object> map = user.convertHashMap();
+            database.collection("User").document(username).set(map).addOnSuccessListener(unused ->
+                    Toast.makeText(CreateUserActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show()
+            ).addOnFailureListener(e ->
+                    Toast.makeText(CreateUserActivity.this, "Lỗi thêm", Toast.LENGTH_SHORT).show());
+            clearAll();
         }
     }
-    private void createNewUser(String username, String password, String phone ,String position,String profile){
-        if (SelectedImgUri != null){
-            String imgFileName = UUID.randomUUID().toString()+".jpg";
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference reference = storage.getReference();
-            StorageReference imagesRef = reference.child("image user");
-            StorageReference image = imagesRef.child(imgFileName);
-            image.putFile(SelectedImgUri).addOnSuccessListener(taskSnapshot -> {
-                image.getDownloadUrl().addOnSuccessListener(uri -> {
-                    String imageUrl = uri.toString();
-                    int positionUser = Integer.parseInt(position);
-                    User user = new User(username, password, phone, positionUser, imageUrl, profile, createdDate);
-                    HashMap<String, Object> map = user.convertHashMap();
-                    database.collection("User").document(username).set(map).addOnSuccessListener(unused -> {
-                        Toast.makeText(CreateUserActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
-                        lastAction(username);
-                    }).addOnFailureListener(e ->
-                            Toast.makeText(CreateUserActivity.this, "Lỗi thêm", Toast.LENGTH_SHORT).show());
-                    clearAll();
-                });
-            }).addOnFailureListener(exception -> {
-                Toast.makeText(this, "Lỗi tải ảnh lên", Toast.LENGTH_SHORT).show();
-            });
-        }else {
-            Toast.makeText(this, "Chưa chọn hình ảnh", Toast.LENGTH_SHORT).show();
-        }
-    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && data != null) {
-            SelectedImgUri = data.getData();
+            Uri uri = data.getData();
             if (binding.imgUserCreate != null) {
-                binding.imgUserCreate.setImageURI(SelectedImgUri);
+                binding.imgUserCreate.setImageURI(uri);
+                urlImg = uri.toString();
             }
         }
     }
@@ -162,14 +129,5 @@ public class CreateUserActivity extends AppCompatActivity {
         binding.edPhoneNumberCreate.setText("");
         binding.edPositionCreate.setText("");
         binding.edProfileCreate.setText("");
-    }
-
-    public void lastAction(String tk) {
-        SharedPreferences sharedPreferences = getSharedPreferences("ReLogin.txt", Context.MODE_PRIVATE);
-        String usn = sharedPreferences.getString("usn", "");
-        uDao.lastAction(usn, "Created " + tk + " account", unused -> {
-        }, e -> {
-            Log.d("Action Error", "Action Error");
-        });
     }
 }
