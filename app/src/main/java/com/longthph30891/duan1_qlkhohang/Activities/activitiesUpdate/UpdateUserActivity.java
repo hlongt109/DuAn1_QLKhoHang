@@ -104,15 +104,9 @@ public class UpdateUserActivity extends AppCompatActivity {
                 return;
             }
             int posi = Integer.parseInt(position);
-            user.setUsername(username);
-            user.setPassword(password);
-            user.setNumberphone(phone);
-            user.setPosition(posi);
-            user.setProfile(profile);
-            user.setAvatar(imgUrl);
-            database.collection("User").document(user.getUsername())
-                    .update(user.convertHashMap())
-                    .addOnSuccessListener(unused ->
+            user.setUsername(username);user.setPassword(password);user.setNumberphone(phone);
+            user.setPosition(posi);user.setProfile(profile);user.setAvatar(imgUrl);
+            database.collection("User").document(user.getUsername()).update(user.convertHashMap()).addOnSuccessListener(unused ->
                     Toast.makeText(UpdateUserActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show()
             ).addOnFailureListener(e ->
                     Toast.makeText(UpdateUserActivity.this, "Lỗi cập nhật", Toast.LENGTH_SHORT).show());
