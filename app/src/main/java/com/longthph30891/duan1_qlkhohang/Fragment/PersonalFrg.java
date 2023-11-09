@@ -30,9 +30,11 @@ public class PersonalFrg extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentPersonalFrgBinding.inflate(inflater, container, false);
         display();
+        changePass();
         LogOut();
         return binding.getRoot();
     }
+
     public void display() {
         SharedPreferences s = getActivity().getSharedPreferences("ReLogin.txt", Context.MODE_PRIVATE);
         String usn = s.getString("usn", "");
@@ -46,6 +48,11 @@ public class PersonalFrg extends Fragment {
                             .into(binding.imgAvatarPersonal);
                 });
             }
+        });
+    }
+    private void changePass() {
+        binding.navChangePass.setOnClickListener(v ->{
+
         });
     }
     public void LogOut() {

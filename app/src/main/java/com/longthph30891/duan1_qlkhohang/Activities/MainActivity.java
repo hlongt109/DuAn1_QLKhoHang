@@ -61,23 +61,20 @@ public class MainActivity extends AppCompatActivity {
                 super.onPageSelected(position);
             }
         });
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId()==R.id.itHome){
-                    pagerMain.setCurrentItem(0);
-                }
-                if (item.getItemId()==R.id.itStockOut){
-                    pagerMain.setCurrentItem(1);
-                }
-                if (item.getItemId()==R.id.itInventory){
-                    pagerMain.setCurrentItem(2);
-                }
-                if (item.getItemId()==R.id.itThongTin){
-                    pagerMain.setCurrentItem(3);
-                }
-                return true;
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId()==R.id.itHome){
+                pagerMain.setCurrentItem(0);
             }
+            if (item.getItemId()==R.id.itStockOut){
+                pagerMain.setCurrentItem(1);
+            }
+            if (item.getItemId()==R.id.itInventory){
+                pagerMain.setCurrentItem(2);
+            }
+            if (item.getItemId()==R.id.itThongTin){
+                pagerMain.setCurrentItem(3);
+            }
+            return true;
         });
     }
 }

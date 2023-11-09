@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-    // Bước 2
     id("com.google.gms.google-services")
 }
 
