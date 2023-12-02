@@ -23,12 +23,12 @@ import com.longthph30891.duan1_qlkhohang.databinding.ActivityUpdateUserBinding;
 
 import java.util.UUID;
 
-
 public class UpdateUserActivity extends AppCompatActivity {
     private ActivityUpdateUserBinding binding;
     private FirebaseFirestore database;
     private userDAO dao = new userDAO();
     private Uri SelectedImgUri = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,15 +156,6 @@ public class UpdateUserActivity extends AppCompatActivity {
             }).addOnFailureListener(exception -> {
                 Toast.makeText(this, "Lỗi tải hình ảnh lên", Toast.LENGTH_SHORT).show();
             });
-            int posi = Integer.parseInt(position);
-            user.setUsername(username);user.setPassword(password);user.setNumberphone(phone);
-            user.setPosition(posi);user.setProfile(profile);user.setAvatar(imgUrl);
-            database.collection("User").document(user.getUsername()).update(user.convertHashMap()).addOnSuccessListener(unused ->
-                    Toast.makeText(UpdateUserActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show()
-            ).addOnFailureListener(e ->
-                    Toast.makeText(UpdateUserActivity.this, "Lỗi cập nhật", Toast.LENGTH_SHORT).show());
-            Intent intent = new Intent(UpdateUserActivity.this, UserListActivity.class);
-            startActivity(intent);
         }
     }
     private void updateNotImg(User user, String username, String pass, String phone, String position, String profile) {
@@ -182,7 +173,6 @@ public class UpdateUserActivity extends AppCompatActivity {
         Intent intent = new Intent(UpdateUserActivity.this, UserListActivity.class);
         startActivity(intent);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
