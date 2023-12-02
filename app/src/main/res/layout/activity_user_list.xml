@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="Quản lý người dùng"
+        app:title="User Management"
         app:titleTextColor="#331139"
         android:background="#76A5CC"
         android:id="@+id/toolbar_User"/>

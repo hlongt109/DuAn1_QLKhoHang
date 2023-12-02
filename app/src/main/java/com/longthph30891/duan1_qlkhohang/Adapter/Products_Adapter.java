@@ -55,7 +55,6 @@ public class Products_Adapter extends RecyclerView.Adapter<Products_Adapter.View
         Glide.with(context).load(pd.getPhoto())
                         .diskCacheStrategy(DiskCacheStrategy.DATA)
                         .into(holder.img_Product);
-
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -88,7 +87,7 @@ public class Products_Adapter extends RecyclerView.Adapter<Products_Adapter.View
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, UpdateProduct_Activity.class);
-                intent.putExtra("product", (CharSequence) pd);
+                intent.putExtra("product", pd);
                 context.startActivity(intent);
             }
         });
