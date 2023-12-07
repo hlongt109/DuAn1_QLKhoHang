@@ -9,7 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Toast;
 
-import com.longthph30891.duan1_qlkhohang.database.DAO.userDAO;
+import com.longthph30891.duan1_qlkhohang.DAO.userDAO;
 import com.longthph30891.duan1_qlkhohang.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {

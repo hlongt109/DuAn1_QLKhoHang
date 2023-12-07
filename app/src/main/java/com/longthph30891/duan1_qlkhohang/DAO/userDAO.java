@@ -1,4 +1,4 @@
-package com.longthph30891.duan1_qlkhohang.database.DAO;
+package com.longthph30891.duan1_qlkhohang.DAO;
 
 import android.util.Log;
 

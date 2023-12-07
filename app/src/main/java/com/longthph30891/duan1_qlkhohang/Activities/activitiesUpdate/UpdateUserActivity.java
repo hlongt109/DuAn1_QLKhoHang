@@ -18,7 +18,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.UserListActivity;
 import com.longthph30891.duan1_qlkhohang.Model.User;
-import com.longthph30891.duan1_qlkhohang.database.DAO.userDAO;
+import com.longthph30891.duan1_qlkhohang.DAO.userDAO;
 import com.longthph30891.duan1_qlkhohang.databinding.ActivityUpdateUserBinding;
 
 import java.util.UUID;
