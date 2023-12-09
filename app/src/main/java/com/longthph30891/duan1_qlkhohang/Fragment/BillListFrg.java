@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.longthph30891.duan1_qlkhohang.R;
+import com.longthph30891.duan1_qlkhohang.databinding.FragmentBillListFrgBinding;
 
 public class BillListFrg extends Fragment {
+    private FragmentBillListFrgBinding binding;
     public BillListFrg() {
         // Required empty public constructor
     }

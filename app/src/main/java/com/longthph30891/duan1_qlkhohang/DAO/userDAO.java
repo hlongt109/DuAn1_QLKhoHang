@@ -82,12 +82,12 @@ public class userDAO {
                 .addOnSuccessListener(successListener)
                 .addOnFailureListener(failureListener);
     }
-    public void lastAction(String username,String action, OnSuccessListener<Void> successListener,OnFailureListener failureListener){
+    public void lastAction(String id,String action, OnSuccessListener<Void> successListener,OnFailureListener failureListener){
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyy");
         String time = dateFormat.format(new Date());
         HashMap<String,Object> map = new HashMap<>();
         map.put("lastAction",action + " at "+time);
-        DocumentReference userRef = db.collection("User").document(username);
+        DocumentReference userRef = db.collection("User").document(id);
         userRef.update(map)
                 .addOnSuccessListener(successListener)
                 .addOnFailureListener(failureListener);

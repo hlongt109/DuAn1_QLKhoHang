@@ -26,12 +26,16 @@
         <activity
             android:name=".Activities.activitiesCreate.CreateProduct_Activity"
             android:exported="false" />
+        <activity android:name=".Activities.activitiesCreate.CreateProductTypeActivity"
+            android:exported="false"/>
         <activity
             android:name=".Activities.activitiesManagementScreen.UserListActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.activitiesManagementScreen.ProductListActivity"
             android:exported="false" />
+        <activity android:name=".Activities.activitiesUpdate.UpdateProductTypeActivity"
+            android:exported="false"/>
         <activity
             android:name=".Activities.SplashActivity"
             android:exported="true">

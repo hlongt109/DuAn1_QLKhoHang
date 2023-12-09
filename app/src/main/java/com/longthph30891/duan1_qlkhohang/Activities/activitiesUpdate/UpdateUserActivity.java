@@ -145,7 +145,7 @@ public class UpdateUserActivity extends AppCompatActivity {
                     user.setPosition(posi);
                     user.setProfile(profile);
                     user.setAvatar(imageUrl);
-                    database.collection("User").document(user.getUsername()).update(user.convertHashMap()).addOnSuccessListener(unused -> {
+                    database.collection("User").document(user.getUsername()).update(user.updatetHashMap()).addOnSuccessListener(unused -> {
                         Toast.makeText(UpdateUserActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                         lastAction(username);
                     }).addOnFailureListener(e ->
@@ -165,7 +165,7 @@ public class UpdateUserActivity extends AppCompatActivity {
         user.setNumberphone(phone);
         user.setPosition(posi);
         user.setProfile(profile);
-        database.collection("User").document(user.getUsername()).update(user.convertHashMap()).addOnSuccessListener(unused -> {
+        database.collection("User").document(user.getUsername()).update(user.updatetHashMap()).addOnSuccessListener(unused -> {
             Toast.makeText(UpdateUserActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
             lastAction(username);
         }).addOnFailureListener(e ->

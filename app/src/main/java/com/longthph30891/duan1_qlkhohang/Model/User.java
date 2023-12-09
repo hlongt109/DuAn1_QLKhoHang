@@ -8,20 +8,23 @@ import java.util.HashMap;
  * update by
  * */
 public class User implements Serializable {
-    String username; // khoa chinh
-    String password;
-    String numberphone;
-    int position; // chuc vu 1 / 0
-    String avatar;
-    String profile; // gioi thieu tom tat
-    String lastLogin; // lan cuoi login
-    String createDate; // ngay tao tai khoan
-    String lastAction; //hanh dong cuoi tren he thong
+    private String id;
+
+    private String username;
+    private String password;
+    private String numberphone;
+    private int position;
+    private String avatar;
+    private String profile;
+    private String lastLogin;
+    private String createDate;
+    private String lastAction;
 
     public User() {
     }
 
-    public User(String username, String password, String numberphone, int position, String avatar, String profile, String createDate) {
+    public User(String id,String username, String password, String numberphone, int position, String avatar, String profile, String createDate) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.numberphone = numberphone;
@@ -32,6 +35,15 @@ public class User implements Serializable {
     }
     public String getUsername() {
         return username;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public User setId(String id) {
+        this.id = id;
+        return this;
     }
 
     public User setUsername(String username) {
@@ -112,6 +124,20 @@ public class User implements Serializable {
     }
 
     public HashMap<String,Object> convertHashMap(){
+        HashMap<String,Object> user = new HashMap<>();
+        user.put("id", id);
+        user.put("username", username);
+        user.put("password", password);
+        user.put("numberphone", numberphone);
+        user.put("position", position);
+        user.put("avatar",avatar);
+        user.put("profile",profile);
+        user.put("lastLogin",lastLogin);
+        user.put("createDate",createDate);
+        user.put("lastAction",lastAction);
+        return user;
+    }
+    public HashMap<String,Object> updatetHashMap(){
         HashMap<String,Object> user = new HashMap<>();
         user.put("username", username);
         user.put("password", password);
