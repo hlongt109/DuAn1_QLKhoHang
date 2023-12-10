@@ -20,6 +20,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
+        android:background="@drawable/khung"
         android:layout_marginTop="50dp"
         android:src="@drawable/img" />
 
@@ -30,42 +31,23 @@
         android:layout_below="@id/imageProductTypeUpdate"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Create ProductType"
+        android:text="Update Product Type"
         android:textColor="#568CA5"
         android:textSize="30sp"
         android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/in_addIDProTypeUp"
+        android:id="@+id/til_pt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="20dp"
         app:boxBackgroundColor="#6F43778E"
-        app:startIconDrawable="@drawable/edit">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ed_addIDProTypeUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="ID"
-            android:padding="20dp"
-            android:textStyle="bold" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/in_nameProTypeUp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/in_addIDProTypeUp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="20dp"
-        app:boxBackgroundColor="#6F43778E"
         app:startIconDrawable="@drawable/name">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ed_addNameProTypeUp"
+            android:id="@+id/ed_Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Name"
@@ -74,10 +56,10 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/update_ProductType"
+        android:id="@+id/btnUpdate"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/in_nameProTypeUp"
+        android:layout_below="@id/til_pt"
         android:layout_marginHorizontal="80dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="#7A3E8288"
@@ -85,12 +67,22 @@
         android:text="Update"
         android:textSize="20sp"
         android:textStyle="bold" />
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/btnUpdate"
+        android:layout_marginHorizontal="80dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#7A3E8288"
+        android:text="Exit"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@+id/update_ProductType"
-        android:layout_marginLeft="290dp"
-        android:layout_marginTop="90dp"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:background="@drawable/background_view1" />
 </RelativeLayout>

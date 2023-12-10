@@ -2,19 +2,23 @@ package com.longthph30891.duan1_qlkhohang.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Toast;
 
-import com.longthph30891.duan1_qlkhohang.database.DAO.userDAO;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.longthph30891.duan1_qlkhohang.DAO.userDAO;
 import com.longthph30891.duan1_qlkhohang.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
-    userDAO uDAO = new userDAO();
+    private userDAO uDAO = new userDAO();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +57,14 @@ public class LoginActivity extends AppCompatActivity {
                        startActivity(intent);
                        finish();
                        Toast.makeText(this, "Welcome "+usn, Toast.LENGTH_SHORT).show();
+                       lastLogin(usn);
                    } else if ("user".equals(position)) {
                        SharePre(usn,1,true);
                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                        startActivity(intent);
                        finish();
                        Toast.makeText(this, "Welcome "+usn, Toast.LENGTH_SHORT).show();
+                       lastLogin(usn);
                    }
                }else {
                    Toast.makeText(this, "Tài khoản không tồn tại", Toast.LENGTH_SHORT).show();
@@ -116,5 +122,11 @@ public class LoginActivity extends AppCompatActivity {
         e.putInt("pos",pos);
         e.putBoolean("isLogin",isLogin);
         e.apply();
+    }
+    public void lastLogin(String usn) {
+        uDAO.lastLogin(usn, unused -> {
+        }, e -> {
+            Log.d("Action Error", "Action Error");
+        });
     }
 }

@@ -8,13 +8,13 @@ import java.util.HashMap;
  * update by
  * */
 public class Product implements Serializable {
-    String id; // khoa chinh, auto 0 - n
-    String name; // ten sp
-    int quantity;// so luong sp
-    int price; // gia sp
-    String photo; // anh cua san pham khi vao kho
-    String Date;
-    String userID; // id cua nguoi tao san pham
+    private String id;
+    private String name;
+    private  int quantity;
+    private int price;
+    private String photo;
+    private String Date;
+    private String userID;
     //
     public Product() {
     }

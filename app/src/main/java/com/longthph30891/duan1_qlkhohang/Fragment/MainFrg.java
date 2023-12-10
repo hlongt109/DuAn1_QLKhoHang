@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -18,7 +18,7 @@ import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.B
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.ProductListActivity;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.ProductTypeListActivity;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.UserListActivity;
-import com.longthph30891.duan1_qlkhohang.database.DAO.userDAO;
+import com.longthph30891.duan1_qlkhohang.DAO.userDAO;
 import com.longthph30891.duan1_qlkhohang.databinding.FragmentMainFrgBinding;
 public class MainFrg extends Fragment {
     private FragmentMainFrgBinding binding;
@@ -34,8 +34,11 @@ public class MainFrg extends Fragment {
     }
     public void initMenu(){
         binding.navQlUsers.setOnClickListener(v ->{
-            Intent intent = new Intent(getActivity(), UserListActivity.class);
-            startActivity(intent);
+            if(isAdmin()){
+                startActivity(new Intent(getActivity(),UserListActivity.class));
+            }else {
+                Toast.makeText(getActivity(), "Chỉ admin", Toast.LENGTH_SHORT).show();
+            }
         });
         binding.navQlProductType.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), ProductTypeListActivity.class);
@@ -64,5 +67,14 @@ public class MainFrg extends Fragment {
                 });
             }
         });
+    }
+    public boolean isAdmin(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("ReLogin.txt", Context.MODE_PRIVATE);
+        int pos = sharedPreferences.getInt("pos",-1);
+        if(pos==0){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

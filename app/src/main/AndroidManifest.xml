@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -25,12 +26,16 @@
         <activity
             android:name=".Activities.activitiesCreate.CreateProduct_Activity"
             android:exported="false" />
+        <activity android:name=".Activities.activitiesCreate.CreateProductTypeActivity"
+            android:exported="false"/>
         <activity
             android:name=".Activities.activitiesManagementScreen.UserListActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.activitiesManagementScreen.ProductListActivity"
             android:exported="false" />
+        <activity android:name=".Activities.activitiesUpdate.UpdateProductTypeActivity"
+            android:exported="false"/>
         <activity
             android:name=".Activities.SplashActivity"
             android:exported="true">
