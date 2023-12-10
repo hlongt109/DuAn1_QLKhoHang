@@ -1,10 +1,18 @@
-package com.longthph30891.duan1_qlkhohang.database.DAO;
+package com.longthph30891.duan1_qlkhohang.DAO;
 
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
 public class userDAO {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -14,6 +22,9 @@ public class userDAO {
     }
     public interface UserCheckCallback {
         void onCheckUser(boolean isUser, String position);
+    }
+    public interface CheckUserNameCallBack{
+        void onCheckUserName(boolean exists);
     }
     public void getAvatarByUsername(String username, onAvatarCallBack callback) {
         db.collection("User").document(username)
@@ -58,6 +69,40 @@ public class userDAO {
                         }
                     }
                     callback.onCheckUser(false, "");
+                });
+        return false;
+    }
+    public void lastLogin(String username, OnSuccessListener<Void> successListener, OnFailureListener failureListener){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String lastLg = dateFormat.format(new Date());
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("lastLogin",lastLg);
+        DocumentReference userRef = db.collection("User").document(username);
+        userRef.update(map)
+                .addOnSuccessListener(successListener)
+                .addOnFailureListener(failureListener);
+    }
+    public void lastAction(String id,String action, OnSuccessListener<Void> successListener,OnFailureListener failureListener){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyy");
+        String time = dateFormat.format(new Date());
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("lastAction",action + " at "+time);
+        DocumentReference userRef = db.collection("User").document(id);
+        userRef.update(map)
+                .addOnSuccessListener(successListener)
+                .addOnFailureListener(failureListener);
+    }
+    public boolean checkUserNameExist(String username, CheckUserNameCallBack callBack){
+        CollectionReference reference = db.collection("User");
+        reference.whereEqualTo("username", username).get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        if (!task.getResult().isEmpty()){
+                            callBack.onCheckUserName(true);
+                        }else {
+                            callBack.onCheckUserName(false);
+                        }
+                    }
                 });
         return false;
     }

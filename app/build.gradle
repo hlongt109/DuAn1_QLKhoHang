@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-    // Bước 2
     id("com.google.gms.google-services")
 }
 
@@ -53,14 +52,12 @@ dependencies {
     // FireBase
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-analytics")
-    // Cloud firestore
     implementation 'com.google.firebase:firebase-firestore'
-    // Firebase Storage
-    implementation 'com.google.firebase:firebase-storage:20.0.0'
-    //circleimageview
+    implementation 'com.google.firebase:firebase-storage'
+    implementation 'com.google.firebase:firebase-auth'
+    //
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    // Glide
     implementation 'com.github.bumptech.glide:glide:4.16.0'
-    // image picker
     implementation 'com.github.dhaval2404:imagepicker:2.1'
+    implementation 'com.airbnb.android:lottie:6.2.0'
 }

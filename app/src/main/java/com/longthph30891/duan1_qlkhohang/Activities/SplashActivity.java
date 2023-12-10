@@ -10,23 +10,29 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.internal.api.FirebaseNoSignedInUserException;
 import com.longthph30891.duan1_qlkhohang.R;
+import com.longthph30891.duan1_qlkhohang.databinding.ActivitySplashBinding;
 
 public class SplashActivity extends AppCompatActivity {
+    private ActivitySplashBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        binding = ActivitySplashBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         SharedPreferences s = getSharedPreferences("ReLogin.txt",MODE_PRIVATE);
         String usn = s.getString("usn","");
         boolean isLoggedIn = s.getBoolean("isLogin", false);
 
         if (isLoggedIn) {
-            Toast.makeText(this, "Welcome "+usn, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            new Handler().postDelayed(() -> {
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                Toast.makeText(this, "Welcome "+usn, Toast.LENGTH_SHORT).show();
+            },2000);
         } else {
             new Handler().postDelayed(() -> {
                 Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
