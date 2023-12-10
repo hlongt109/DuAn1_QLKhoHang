@@ -48,21 +48,26 @@
             android:layout_marginHorizontal="10dp"
             android:layout_below="@id/linearlayout2"
             android:orientation="vertical">
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_UserName_update"
-                android:layout_below="@id/topView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                android:hint="Username"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/baseline_person_24">
-                <com.google.android.material.textfield.TextInputEditText
+                android:background="@drawable/khung"
+                android:paddingVertical="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_person_24"
+                    android:layout_marginHorizontal="10dp"/>
+                <TextView
                     android:id="@+id/edUserName_update"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="usn"
                     android:textColor="#000"/>
-            </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_Pass_update"
                 android:layout_marginVertical="10dp"

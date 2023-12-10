@@ -38,7 +38,7 @@ public class CreateUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCreateUserBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         createdDate = sdf.format(new Date());
         setListener();
     }
