@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,10 +49,13 @@ public class Products_Adapter extends RecyclerView.Adapter<Products_Adapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHoldel holder, int position) {
         Product pd = list.get(position);
+        String productId = pd.getId();
+        Log.d("productId", "onBindViewHolder: " + productId);
         holder.tvProductName.setText(list.get(position).getName());
         holder.tvProductPrice.setText(String.valueOf(list.get(position).getPrice()));
         holder.tvProductQuantity.setText(String.valueOf(list.get(position).getQuantity()));
         holder.tvProductDate.setText(list.get(position).getDate());
+        pd.setId(pd.getId());
         Glide.with(context).load(pd.getPhoto())
                         .diskCacheStrategy(DiskCacheStrategy.DATA)
                         .into(holder.img_Product);

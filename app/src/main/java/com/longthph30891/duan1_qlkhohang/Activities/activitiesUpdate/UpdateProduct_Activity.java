@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -33,11 +34,11 @@ public class UpdateProduct_Activity extends AppCompatActivity {
     FirebaseFirestore database;
     Context context = this;
     private String imgUrlProduct = "";
+    private Product pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_product2);
-        database = FirebaseFirestore.getInstance();
         binding = ActivityUpdateProduct2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -61,17 +62,26 @@ public class UpdateProduct_Activity extends AppCompatActivity {
                 update_Product();
             }
         });
-        initData();
+
+        pd = (Product) getIntent().getSerializableExtra("product");
+        if (pd != null) {
+            // Sử dụng ID từ dữ liệu Intent thay vì cố gắng thiết lập lại nó
+            binding.imgUpdateProduct.setImageURI(Uri.parse(pd.getPhoto()));
+            binding.edUpdateName.setText(pd.getName());
+            binding.edUpdateQuantity.setText(String.valueOf(pd.getQuantity()));
+            binding.edUpdatePrice.setText(String.valueOf(pd.getPrice()));
+        }
     }
 
     private void update_Product() {
         database = FirebaseFirestore.getInstance();
-        Product product = new Product();
+        Product pd = new Product();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String name = binding.edUpdateName.getText().toString();
         String priceStr = binding.edUpdatePrice.getText().toString();
         String quantityStr = binding.edUpdateQuantity.getText().toString();
         String date = dateFormat.format(new Date());
+        String id = pd.getId();
 
         if (name.isEmpty() || priceStr.isEmpty() || quantityStr.isEmpty()) {
             if (name.isEmpty()) {
@@ -112,13 +122,14 @@ public class UpdateProduct_Activity extends AppCompatActivity {
             } else if (quantity < 0) {
                 binding.inUpdateQuantity.setError("Số lượng sản phẩm phải lớn hơn 0");
             } else {
-                product.setName(name);
-                product.setQuantity(quantity);
-                product.setPrice(price);
-                product.setDate(date);
-                product.setPhoto(imgUrlProduct);
-                database.collection("Product").document(product.getName())
-                        .update(product.converHashMap())
+                pd.setName(name);
+                pd.setQuantity(quantity);
+                pd.setPrice(price);
+                pd.setDate(date);
+                pd.setPhoto(imgUrlProduct);
+                Log.d("HashMap Data", pd.converHashMap().toString());
+                database.collection("Product").document(pd.getId())
+                        .update(pd.converHashMap())
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
@@ -131,16 +142,6 @@ public class UpdateProduct_Activity extends AppCompatActivity {
                             }
                         });
             }
-        }
-    }
-
-    private void initData(){
-        Product product = (Product) getIntent().getSerializableExtra("product");
-        if(product != null){
-            binding.imgUpdateProduct.setImageURI(Uri.parse(product.getPhoto()));
-            binding.edUpdateName.setText(product.getName());
-            binding.edUpdateQuantity.setText(String.valueOf(product.getQuantity()));
-            binding.edUpdatePrice.setText(String.valueOf(product.getPrice()));
         }
     }
 
