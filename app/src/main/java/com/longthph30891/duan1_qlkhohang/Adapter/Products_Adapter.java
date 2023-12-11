@@ -9,11 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -54,11 +56,11 @@ public class Products_Adapter extends RecyclerView.Adapter<Products_Adapter.View
         holder.tvProductName.setText(list.get(position).getName());
         holder.tvProductPrice.setText(String.valueOf(list.get(position).getPrice()));
         holder.tvProductQuantity.setText(String.valueOf(list.get(position).getQuantity()));
-        holder.tvProductDate.setText(list.get(position).getDate());
         pd.setId(pd.getId());
         Glide.with(context).load(pd.getPhoto())
                         .diskCacheStrategy(DiskCacheStrategy.DATA)
                         .into(holder.img_Product);
+        holder.Card_View.startAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(),R.anim.animation));
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -104,14 +106,15 @@ public class Products_Adapter extends RecyclerView.Adapter<Products_Adapter.View
 
     public static class ViewHoldel extends RecyclerView.ViewHolder{
         ImageView img_Product;
-        TextView tvProductName, tvProductPrice, tvProductQuantity, tvProductDate;
+        TextView tvProductName, tvProductPrice, tvProductQuantity;
+        CardView Card_View;
         public ViewHoldel(@NonNull View itemView) {
             super(itemView);
             img_Product = itemView.findViewById(R.id.imgProduct);
             tvProductName = itemView.findViewById(R.id.tvProductName);
             tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
             tvProductQuantity = itemView.findViewById(R.id.tvProductQuantity);
-            tvProductDate = itemView.findViewById(R.id.tvProductDate);
+            Card_View = itemView.findViewById(R.id.Card_View);
         }
     }
 }

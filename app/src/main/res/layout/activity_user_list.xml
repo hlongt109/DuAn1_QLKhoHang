@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#c6dde7"
     tools:context=".Activities.activitiesManagementScreen.UserListActivity">
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
@@ -16,11 +15,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginVertical="8dp"
+        android:layout_marginTop="8dp"
         android:layout_below="@id/toolbar_User">
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#c6dde7"
             android:layout_gravity="center_horizontal"
             android:layout_below="@id/toolbar_User"
             android:id="@+id/rcv_user"/>

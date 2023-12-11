@@ -47,6 +47,9 @@ public class userDAO {
                     }
                 });
     }
+    public void getIdByUsername(String username){
+
+    }
     public boolean checkUser(String usn, String pass, UserCheckCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("User")
@@ -73,7 +76,7 @@ public class userDAO {
         return false;
     }
     public void lastLogin(String username, OnSuccessListener<Void> successListener, OnFailureListener failureListener){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy HH:mm");
         String lastLg = dateFormat.format(new Date());
         HashMap<String,Object> map = new HashMap<>();
         map.put("lastLogin",lastLg);
@@ -83,7 +86,7 @@ public class userDAO {
                 .addOnFailureListener(failureListener);
     }
     public void lastAction(String id,String action, OnSuccessListener<Void> successListener,OnFailureListener failureListener){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy HH:mm");
         String time = dateFormat.format(new Date());
         HashMap<String,Object> map = new HashMap<>();
         map.put("lastAction",action + " at "+time);

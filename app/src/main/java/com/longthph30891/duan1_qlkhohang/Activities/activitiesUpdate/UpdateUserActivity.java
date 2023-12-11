@@ -66,19 +66,13 @@ public class UpdateUserActivity extends AppCompatActivity {
 
     private void openDialogUpadte() {
         User user = (User) getIntent().getSerializableExtra("user");
-        String img = "";
         database = FirebaseFirestore.getInstance();
         String username = binding.edUserNameUpdate.getText().toString();
         String password = binding.edPassUpdate.getText().toString();
         String phone = binding.edPhoneNumberUpdate.getText().toString();
         String position = binding.edPositionUpdate.getText().toString();
         String profile = binding.edProfileUpdate.getText().toString();
-        if (username.isEmpty() || password.isEmpty() || phone.isEmpty() || position.isEmpty() || profile.isEmpty()) {
-            if (username.isEmpty()) {
-                binding.tilUserNameUpdate.setError("Không để trống username");
-            } else {
-                binding.tilUserNameUpdate.setError(null);
-            }
+        if (password.isEmpty() || phone.isEmpty() || position.isEmpty() || profile.isEmpty()) {
             if (password.isEmpty()) {
                 binding.tilPassUpdate.setError("Không để trống password");
             } else {
@@ -112,22 +106,13 @@ public class UpdateUserActivity extends AppCompatActivity {
                 binding.tilPositionUpdate.setError("Position là số từ 0 - 1");
                 return;
             }
-            if (!username.equals(user.getUsername())) {
-                dao.checkUserNameExist(username, exists -> {
-                    if (exists) {
-                        binding.tilUserNameUpdate.setError("username đã tồn tại !");
-                    } else {
-                        update(user, SelectedImgUri, username, password, phone, position, profile);
-                    }
-                });
-            } else if (SelectedImgUri == null) {
+             if (SelectedImgUri == null) {
                 updateNotImg(user, username, password, phone, position, profile);
             } else {
                 update(user, SelectedImgUri, username, password, phone, position, profile);
             }
         }
     }
-
     private void update(User user, Uri img, String username, String pass, String phone, String position, String profile) {
         if (img != null) {
             String imgFileName = UUID.randomUUID().toString() + ".jpg";
@@ -145,7 +130,7 @@ public class UpdateUserActivity extends AppCompatActivity {
                     user.setPosition(posi);
                     user.setProfile(profile);
                     user.setAvatar(imageUrl);
-                    database.collection("User").document(user.getUsername()).update(user.updatetHashMap()).addOnSuccessListener(unused -> {
+                    database.collection("User").document(user.getUsername()).update(user.convertHashMap()).addOnSuccessListener(unused -> {
                         Toast.makeText(UpdateUserActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                         lastAction(username);
                     }).addOnFailureListener(e ->
@@ -165,7 +150,7 @@ public class UpdateUserActivity extends AppCompatActivity {
         user.setNumberphone(phone);
         user.setPosition(posi);
         user.setProfile(profile);
-        database.collection("User").document(user.getUsername()).update(user.updatetHashMap()).addOnSuccessListener(unused -> {
+        database.collection("User").document(user.getUsername()).update(user.convertHashMap()).addOnSuccessListener(unused -> {
             Toast.makeText(UpdateUserActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
             lastAction(username);
         }).addOnFailureListener(e ->

@@ -8,18 +8,19 @@ import java.util.HashMap;
  * update by
  * */
 public class Product implements Serializable {
-    String id; // khoa chinh, auto 0 - n
-    String name; // ten sp
-    int quantity;// so luong sp
-    int price; // gia sp
-    String photo; // anh cua san pham khi vao kho
-    String Date;
-    String userID; // id cua nguoi tao san pham
+    private String id;
+    private String name;
+    private  int quantity;
+    private int price;
+    private String photo;
+    private String Date;
+    private String userID;
+    private String ProductType;
     //
     public Product() {
     }
 
-    public Product(String id, String name, int quantity, int price, String photo, String date, String userID) {
+    public Product(String id, String name, int quantity, int price, String photo, String date, String userID, String productType) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
@@ -27,15 +28,7 @@ public class Product implements Serializable {
         this.photo = photo;
         Date = date;
         this.userID = userID;
-    }
-
-    public Product(String id, String name, int quantity, int price, String photo, String date) {
-        this.id = id;
-        this.name = name;
-        this.quantity = quantity;
-        this.price = price;
-        this.photo = photo;
-        Date = date;
+        ProductType = productType;
     }
 
     public String getId() {
@@ -94,6 +87,14 @@ public class Product implements Serializable {
         this.userID = userID;
     }
 
+    public String getProductType() {
+        return ProductType;
+    }
+
+    public void setProductType(String productType) {
+        ProductType = productType;
+    }
+
     public HashMap<String, Object> converHashMap(){
         HashMap<String, Object> work = new HashMap<>();
         work.put("id", id);
@@ -102,6 +103,8 @@ public class Product implements Serializable {
         work.put("price", price);
         work.put("Date", Date);
         work.put("photo", photo);
+        work.put("userId", userID);
+        work.put("productType", ProductType);
         return work;
     }
 }

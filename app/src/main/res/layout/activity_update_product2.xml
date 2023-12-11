@@ -91,6 +91,15 @@
             android:hint="Price"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/in_updatePrice"
+        android:layout_marginHorizontal="10dp"
+        android:id="@+id/spn_UpdateProductType"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -98,7 +107,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginHorizontal="80dp"
-        android:layout_below="@id/in_updatePrice"
+        android:layout_below="@id/spn_UpdateProductType"
         android:layout_marginTop="20dp"
         android:backgroundTint="#7A3E8288"
         android:drawableLeft="@drawable/saveas"
