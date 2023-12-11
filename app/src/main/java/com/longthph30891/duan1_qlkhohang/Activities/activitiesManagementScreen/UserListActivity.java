@@ -83,7 +83,7 @@ public class UserListActivity extends AppCompatActivity {
                         case ADDED: // thêm 1 document
                             User user = dc.getDocument().toObject(User.class);
                             list.add(user);
-                            adapter.notifyItemInserted(list.size() - 1);
+//                            adapter.notifyItemInserted(list.size() - 1);
                             break;
                         case MODIFIED: // update 1 document
                             User userUpdate = dc.getDocument().toObject(User.class);
@@ -103,6 +103,7 @@ public class UserListActivity extends AppCompatActivity {
                             break;
                     }
                 }
+                adapter.notifyDataSetChanged();
             }
         });
     }
