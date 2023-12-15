@@ -14,19 +14,19 @@ public class Product implements Serializable {
     private int price;
     private String photo;
     private String Date;
-    private String userID;
+    private String userId;
     //
     public Product() {
     }
 
-    public Product(String id, String name, int quantity, int price, String photo, String date, String userID) {
+    public Product(String id, String name, int quantity, int price, String photo, String date, String userId) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
         this.photo = photo;
         Date = date;
-        this.userID = userID;
+        this.userId = userId;
     }
 
     public Product(String id, String name, int quantity, int price, String photo, String date) {
@@ -87,11 +87,11 @@ public class Product implements Serializable {
     }
 
     public String getUserID() {
-        return userID;
+        return userId;
     }
 
     public void setUserID(String userID) {
-        this.userID = userID;
+        this.userId = userID;
     }
 
     public HashMap<String, Object> converHashMap(){
