@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.longthph30891.duan1_qlkhohang.Activities.Change_Password;
 import com.longthph30891.duan1_qlkhohang.Activities.LoginActivity;
 import com.bumptech.glide.Glide;
 import com.longthph30891.duan1_qlkhohang.DAO.userDAO;
@@ -52,7 +53,7 @@ public class PersonalFrg extends Fragment {
     }
     private void changePass() {
         binding.navChangePass.setOnClickListener(v ->{
-
+            startActivity(new Intent(getActivity(), Change_Password.class));
         });
     }
     public void LogOut() {

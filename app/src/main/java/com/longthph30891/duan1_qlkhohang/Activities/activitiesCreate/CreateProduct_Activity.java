@@ -6,31 +6,46 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.ProductListActivity;
+import com.longthph30891.duan1_qlkhohang.Adapter.CustomSpinnerAdapter;
 import com.longthph30891.duan1_qlkhohang.Model.Product;
 import com.longthph30891.duan1_qlkhohang.R;
 import com.longthph30891.duan1_qlkhohang.databinding.ActivityCreateProductBinding;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class CreateProduct_Activity extends AppCompatActivity {
     private ActivityCreateProductBinding binding;
     FirebaseFirestore database;
+    private CustomSpinnerAdapter adapter;
     Context context = this;
+    String username, idUser;
+    String selectedProductType;
     private String selectedImageUrl = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +56,51 @@ public class CreateProduct_Activity extends AppCompatActivity {
         binding = ActivityCreateProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         validate();
+
+        username = getUsnFromSharedPreferences();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference usersCollection = db.collection("User");
+        Query query = usersCollection.whereEqualTo("username", username);
+        query.get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                for(QueryDocumentSnapshot document : task.getResult()){
+                    idUser = document.getId();
+
+                }
+            }else{
+
+            }
+        });
+
+        FirebaseFirestore ProductTypeDb = FirebaseFirestore.getInstance();
+        ProductTypeDb.collection("ProductType").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    List<String> productTypes = new ArrayList<>();
+                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                        String name = documentSnapshot.getString("name");
+                        productTypes.add(name);
+                    }
+                    adapter = new CustomSpinnerAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, productTypes);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    binding.spnProductType.setAdapter(adapter);
+
+                    binding.spnProductType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            selectedProductType = adapterView.getItemAtPosition(i).toString();
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+                }
+            }
+        });
 
         binding.addProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +180,7 @@ public class CreateProduct_Activity extends AppCompatActivity {
                 binding.inAddQuantity.setError("Số lượng sản phẩm phải lớn hơn 0");
             } else {
                 String id = UUID.randomUUID().toString();
-                Product pd = new Product(id, name, quantity, price, selectedImageUrl, date);
+                Product pd = new Product(id, name, quantity, price, selectedImageUrl, date, idUser,selectedProductType);
                 HashMap<String, Object> mapPD = pd.converHashMap();
                 database.collection("Product").document(id).set(mapPD).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -217,6 +277,11 @@ public class CreateProduct_Activity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private String getUsnFromSharedPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("ReLogin.txt", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("usn", "");
     }
 
 }

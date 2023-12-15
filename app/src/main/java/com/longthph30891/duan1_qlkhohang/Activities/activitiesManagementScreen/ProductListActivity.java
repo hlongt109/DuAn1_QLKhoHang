@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.DocumentChange;
@@ -44,43 +46,27 @@ public class ProductListActivity extends AppCompatActivity {
         binding = ActivityProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         database = FirebaseFirestore.getInstance();
-        initView();
 
         listenFbFt();
 
         adapter = new Products_Adapter(context, list, database);
 
-        binding.rcvProduct.setLayoutManager(new LinearLayoutManager(this));
+        binding.rcvProduct.setLayoutManager(new GridLayoutManager(this,2));
         binding.rcvProduct.setAdapter(adapter);
-    }
 
-    private void initView(){
-        setSupportActionBar(binding.toolbarProduct);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        startActivity(new Intent(this, MainActivity.class));
-        return true;
-    }
-
-    @SuppressLint("ResourceType")
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.sub_menu, menu); // Sử dụng `getMenuInflater()` thay vì `getLayoutInflater()`
-        MenuItem item_add = menu.findItem(R.id.item_add);
-
-        item_add.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        binding.backProductManager.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
-                startActivity(new Intent(ProductListActivity.this, CreateProduct_Activity.class));
-                return false;
+            public void onClick(View view) {
+                startActivity(new Intent(ProductListActivity.this, MainActivity.class));
             }
         });
-        return true;
+
+        binding.addProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProductListActivity.this, CreateProduct_Activity.class));
+            }
+        });
     }
 
     private void listenFbFt(){
