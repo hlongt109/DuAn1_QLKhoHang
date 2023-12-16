@@ -71,11 +71,13 @@ public class CreateBillActivity extends AppCompatActivity {
         adapter.clickUpdateQuantity(new CartInterface() {
             @Override
             public void onIncreaseClick(int position) {
+
                 isIncreaseClick(position);
             }
 
             @Override
             public void onDecreaseClick(int position) {
+
                 isDecreaseClick(position);
             }
         });
