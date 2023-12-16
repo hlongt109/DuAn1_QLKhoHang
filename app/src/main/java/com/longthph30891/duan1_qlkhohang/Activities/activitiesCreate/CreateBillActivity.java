@@ -3,6 +3,7 @@ package com.longthph30891.duan1_qlkhohang.Activities.activitiesCreate;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Toast;
+
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -22,6 +24,7 @@ import com.longthph30891.duan1_qlkhohang.Model.Cart;
 import com.longthph30891.duan1_qlkhohang.Utilities.CartInterface;
 import com.longthph30891.duan1_qlkhohang.Utilities.FormatMoney;
 import com.longthph30891.duan1_qlkhohang.databinding.ActivityCreateBillBinding;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,6 +67,7 @@ public class CreateBillActivity extends AppCompatActivity {
             deleteAllItemsInCart();
             startActivity(new Intent(this, BillListActivity.class));
         });
+
         ListenerDB();
         adapter = new BillDetailsAdapter(this, list, database);
         binding.rcvProductOder.setLayoutManager(new LinearLayoutManager(this));
@@ -71,8 +75,18 @@ public class CreateBillActivity extends AppCompatActivity {
         adapter.clickUpdateQuantity(new CartInterface() {
             @Override
             public void onIncreaseClick(int position) {
-
-                isIncreaseClick(position);
+                if (binding.radio.getCheckedRadioButtonId() == -1) {
+                    Toast.makeText(CreateBillActivity.this, "Chưa chọn trạng thái hóa đơn", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                binding.rdoStockOut.setOnClickListener(v -> {
+                    isIncreaseClick(position);
+                });
+                if (binding.rdoStockOut.isChecked()){
+                    isIncreaseClick(position);
+                }else {
+                    isIncreaseInventory(position);
+                }
             }
 
             @Override
@@ -175,7 +189,15 @@ public class CreateBillActivity extends AppCompatActivity {
             cart.setQuantity(quantity);
             updateQuantityCart(cart, quantity);
         }
+        adapter.notifyDataSetChanged();
+    }
 
+    private void isIncreaseInventory(int position) {
+        cart = list.get(position);
+        int quantity = cart.getQuantity();
+        quantity++;
+        cart.setQuantity(quantity);
+        updateQuantityCart(cart, quantity);
         adapter.notifyDataSetChanged();
     }
 
@@ -184,24 +206,31 @@ public class CreateBillActivity extends AppCompatActivity {
         int quantity = cart.getQuantity();
         quantity++;
         int finalQuantity = quantity;
-        currentQuantityOfProduct(cart, new quantityCallBack() {
-            @Override
-            public void onSuccess(long currentQuantity) {
-                if (finalQuantity > currentQuantity) {
-                    Toast.makeText(CreateBillActivity.this, "Đã đạt số lượng tối đa của sản phẩm", Toast.LENGTH_SHORT).show();
-                } else {
-                    cart.setQuantity(finalQuantity);
-                    updateQuantityCart(cart, finalQuantity);
-                    adapter.notifyDataSetChanged();
+            currentQuantityOfProduct(cart, new quantityCallBack() {
+                @Override
+                public void onSuccess(long currentQuantity) {
+                    if (finalQuantity > currentQuantity) {
+                        Toast.makeText(CreateBillActivity.this, "Đã đạt số lượng tối đa của sản phẩm", Toast.LENGTH_SHORT).show();
+                        cart.setQuantity((int) currentQuantity);
+                        updateQuantityCart(cart, (int) currentQuantity);
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        cart.setQuantity(finalQuantity);
+                        updateQuantityCart(cart, finalQuantity);
+                        adapter.notifyDataSetChanged();
+                    }
                 }
-            }
-            @Override
-            public void onFailure() {}
-        });
+
+                @Override
+                public void onFailure() {
+                }
+            });
+
+
     }
 
     private void updateQuantityCart(Cart cart, int quantity) {
-        SharedPreferences s = getSharedPreferences("ReLogin.txt",MODE_PRIVATE);
+        SharedPreferences s = getSharedPreferences("ReLogin.txt", MODE_PRIVATE);
         String username = s.getString("usn", "");
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection("Cart")
@@ -395,7 +424,8 @@ public class CreateBillActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                 });
     }
-    private void resetFileds(){
+
+    private void resetFileds() {
         binding.rdoInventory.setChecked(false);
         binding.rdoStockOut.setChecked(false);
         binding.edNote.setText("");
