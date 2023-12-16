@@ -5,16 +5,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesCreate.CreateBillActivity;
 import com.longthph30891.duan1_qlkhohang.Adapter.SelectProductAdapter;
 import com.longthph30891.duan1_qlkhohang.Model.Product;
-import com.longthph30891.duan1_qlkhohang.R;
 import com.longthph30891.duan1_qlkhohang.databinding.ActivitySelectProductBinding;
 
 import java.util.ArrayList;
@@ -51,11 +47,12 @@ public class SelectProductActivity extends AppCompatActivity {
             if(value != null){
                 for(DocumentChange dc : value.getDocumentChanges()){
                     switch (dc.getType()){
-                        case ADDED:
+                        case ADDED: // thêm 1 document
                             Product product = dc.getDocument().toObject(Product.class);
                             list.add(product);
+//                            adapter.notifyItemInserted(list.size() - 1);
                             break;
-                        case MODIFIED:
+                        case MODIFIED: // update 1 document
                             Product pUpdate = dc.getDocument().toObject(Product.class);
                             if (dc.getOldIndex() == dc.getNewIndex()) {
                                 list.set(dc.getOldIndex(), pUpdate);
@@ -66,7 +63,7 @@ public class SelectProductActivity extends AppCompatActivity {
                                 adapter.notifyItemMoved(dc.getOldIndex(),dc.getNewIndex());
                             }
                             break;
-                        case REMOVED:
+                        case REMOVED: // xóa 1 document
                             dc.getDocument().toObject(Product.class);
                             list.remove(dc.getOldIndex());
                             adapter.notifyItemRemoved(dc.getOldIndex());
