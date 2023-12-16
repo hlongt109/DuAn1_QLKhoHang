@@ -2,27 +2,21 @@ package com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.longthph30891.duan1_qlkhohang.Activities.MainActivity;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesCreate.CreateBillActivity;
-import com.longthph30891.duan1_qlkhohang.Activities.activitiesCreate.CreateUserActivity;
 import com.longthph30891.duan1_qlkhohang.Adapter.billAdapter;
 import com.longthph30891.duan1_qlkhohang.Model.Bill;
-import com.longthph30891.duan1_qlkhohang.Model.User;
 import com.longthph30891.duan1_qlkhohang.R;
 import com.longthph30891.duan1_qlkhohang.databinding.ActivityBillListBinding;
-
 import java.util.ArrayList;
 
 public class BillListActivity extends AppCompatActivity {

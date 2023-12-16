@@ -1,14 +1,16 @@
 package com.longthph30891.duan1_qlkhohang.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.BillDetailsActivity;
+import com.longthph30891.duan1_qlkhohang.Activities.activitiesUpdate.UpdateUserActivity;
 import com.longthph30891.duan1_qlkhohang.DAO.userDAO;
 import com.longthph30891.duan1_qlkhohang.Model.Bill;
 import com.longthph30891.duan1_qlkhohang.R;
@@ -41,6 +43,11 @@ public class billAdapter extends RecyclerView.Adapter<billAdapter.myViewHolder>{
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
         Bill bill = list.get(position);
         holder.setData(bill);
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, BillDetailsActivity.class);
+            intent.putExtra("bill", bill);
+            context.startActivity(intent);
+        });
     }
 
     @Override

@@ -2,10 +2,7 @@ package com.longthph30891.duan1_qlkhohang.Activities.activitiesCreate;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,25 +10,18 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Toast;
-
-import com.airbnb.lottie.L;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.longthph30891.duan1_qlkhohang.Activities.SelectProductActivity;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.BillListActivity;
 import com.longthph30891.duan1_qlkhohang.Adapter.BillDetailsAdapter;
-import com.longthph30891.duan1_qlkhohang.BottomSheet.BottomSheetSelectProduct;
 import com.longthph30891.duan1_qlkhohang.Model.Bill;
 import com.longthph30891.duan1_qlkhohang.Model.BillDetail;
 import com.longthph30891.duan1_qlkhohang.Model.Cart;
-import com.longthph30891.duan1_qlkhohang.Model.Product;
-import com.longthph30891.duan1_qlkhohang.R;
 import com.longthph30891.duan1_qlkhohang.Utilities.CartInterface;
 import com.longthph30891.duan1_qlkhohang.Utilities.FormatMoney;
 import com.longthph30891.duan1_qlkhohang.databinding.ActivityCreateBillBinding;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -203,11 +193,8 @@ public class CreateBillActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                 }
             }
-
             @Override
-            public void onFailure() {
-
-            }
+            public void onFailure() {}
         });
     }
 
@@ -306,7 +293,6 @@ public class CreateBillActivity extends AppCompatActivity {
                             break;
                     }
                 }
-
                 list.clear();
                 list.addAll(newList);
                 for (Cart cart : list) {
