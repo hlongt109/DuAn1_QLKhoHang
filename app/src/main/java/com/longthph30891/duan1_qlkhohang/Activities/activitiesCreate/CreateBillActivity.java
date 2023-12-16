@@ -201,7 +201,7 @@ public class CreateBillActivity extends AppCompatActivity {
     }
 
     private void updateQuantityCart(Cart cart, int quantity) {
-        SharedPreferences s = getSharedPreferences("ReLogin.txt", MODE_PRIVATE);
+        SharedPreferences s = getSharedPreferences("ReLogin.txt",MODE_PRIVATE);
         String username = s.getString("usn", "");
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection("Cart")

@@ -1,6 +1,8 @@
 package com.longthph30891.duan1_qlkhohang.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -83,10 +85,12 @@ public class SelectProductAdapter extends RecyclerView.Adapter<SelectProductAdap
         }
     }
     private void saveDataToCart(Product selectedProduct) {
+        SharedPreferences s = context.getSharedPreferences("ReLogin.txt",context.MODE_PRIVATE);
+        String usernameUser = s.getString("usn","");
         String id = UUID.randomUUID().toString();
         Cart cartItem = new Cart(id,
                 selectedProduct.getId(),
-                selectedProduct.getUserID(),
+                usernameUser,
                 selectedProduct.getPhoto(),
                 selectedProduct.getName(),
                 selectedProduct.getPrice(),
