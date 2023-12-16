@@ -27,7 +27,9 @@ import com.longthph30891.duan1_qlkhohang.Activities.activitiesUpdate.UpdateProdu
 import com.longthph30891.duan1_qlkhohang.Model.Product;
 import com.longthph30891.duan1_qlkhohang.R;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Products_Adapter extends RecyclerView.Adapter<Products_Adapter.ViewHoldel>{
     private final Context context;
@@ -54,7 +56,11 @@ public class Products_Adapter extends RecyclerView.Adapter<Products_Adapter.View
         String productId = pd.getId();
         Log.d("productId", "onBindViewHolder: " + productId);
         holder.tvProductName.setText(list.get(position).getName());
-        holder.tvProductPrice.setText(String.valueOf(list.get(position).getPrice()));
+
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        String formattedTotalRevenue = formatter.format(list.get(position).getPrice());
+        holder.tvProductPrice.setText(formattedTotalRevenue);
+
         holder.tvProductQuantity.setText(String.valueOf(list.get(position).getQuantity()));
         pd.setId(pd.getId());
         Glide.with(context).load(pd.getPhoto())
