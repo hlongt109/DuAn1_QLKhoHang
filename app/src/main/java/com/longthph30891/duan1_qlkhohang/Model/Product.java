@@ -14,28 +14,21 @@ public class Product implements Serializable {
     private int price;
     private String photo;
     private String Date;
-    private String userId;
+    private String userID;
+    private String ProductType;
     //
     public Product() {
     }
 
-    public Product(String id, String name, int quantity, int price, String photo, String date, String userId) {
+    public Product(String id, String name, int quantity, int price, String photo, String date, String userID, String productType) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
         this.photo = photo;
         Date = date;
-        this.userId = userId;
-    }
-
-    public Product(String id, String name, int quantity, int price, String photo, String date) {
-        this.id = id;
-        this.name = name;
-        this.quantity = quantity;
-        this.price = price;
-        this.photo = photo;
-        Date = date;
+        this.userID = userID;
+        ProductType = productType;
     }
 
     public String getId() {
@@ -87,11 +80,19 @@ public class Product implements Serializable {
     }
 
     public String getUserID() {
-        return userId;
+        return userID;
     }
 
     public void setUserID(String userID) {
-        this.userId = userID;
+        this.userID = userID;
+    }
+
+    public String getProductType() {
+        return ProductType;
+    }
+
+    public void setProductType(String productType) {
+        ProductType = productType;
     }
 
     public HashMap<String, Object> converHashMap(){
@@ -102,6 +103,8 @@ public class Product implements Serializable {
         work.put("price", price);
         work.put("Date", Date);
         work.put("photo", photo);
+        work.put("userId", userID);
+        work.put("productType", ProductType);
         return work;
     }
 }

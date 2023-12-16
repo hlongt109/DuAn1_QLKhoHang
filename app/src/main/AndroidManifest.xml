@@ -23,6 +23,12 @@
             android:name=".Activities.SelectProductActivity"
             android:exported="false" />
         <activity
+            android:name=".Activities.ChangPassword_Success"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Change_Password"
+            android:exported="false" />
+        <activity
             android:name=".Activities.activitiesCreate.CreateUserActivity"
             android:exported="false" />
         <activity
