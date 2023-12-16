@@ -34,11 +34,6 @@ public class SelectProductAdapter extends RecyclerView.Adapter<SelectProductAdap
         this.database = database;
         checkedItem = new ArrayList<>(Collections.nCopies(list.size(),false));
     }
-
-    public void clickCheckBox(checkBoxInterface checkBoxInterface) {
-        this.checkBoxInterface = checkBoxInterface;
-    }
-
     @NonNull
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -87,7 +82,6 @@ public class SelectProductAdapter extends RecyclerView.Adapter<SelectProductAdap
             binding.tvQuantity.setText(String.valueOf(product.getQuantity()));
         }
     }
-
     private void saveDataToCart(Product selectedProduct) {
         String id = UUID.randomUUID().toString();
         Cart cartItem = new Cart(id,
@@ -103,7 +97,6 @@ public class SelectProductAdapter extends RecyclerView.Adapter<SelectProductAdap
 
         });
     }
-
     private void removeProductFromCart(Product selectedProduct) {
         database.collection("Cart")
                 .whereEqualTo("idProduct",selectedProduct.getId())

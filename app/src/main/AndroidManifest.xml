@@ -17,6 +17,12 @@
         android:theme="@style/Theme.DuAn1_QLKhoHang"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.activitiesManagementScreen.BillDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.SelectProductActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.ChangPassword_Success"
             android:exported="false" />
         <activity
