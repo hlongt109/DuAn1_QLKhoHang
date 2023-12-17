@@ -17,6 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.BillListActivity;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.ProductListActivity;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.ProductTypeListActivity;
+import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.StockOutActivity;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.UserListActivity;
 import com.longthph30891.duan1_qlkhohang.DAO.userDAO;
 import com.longthph30891.duan1_qlkhohang.databinding.FragmentMainFrgBinding;
@@ -50,6 +51,10 @@ public class MainFrg extends Fragment {
         });
         binding.navQlBill.setOnClickListener(v ->{
             Intent intent = new Intent(getActivity(), BillListActivity.class);
+            startActivity(intent);
+        });
+        binding.navQlStockOut.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), StockOutActivity.class);
             startActivity(intent);
         });
     }

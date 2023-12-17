@@ -17,4 +17,10 @@
     <string name="t_ng_ti_n">Tổng tiền :</string>
     <string name="ch_n_s_n_ph_m">Chọn sản phẩm</string>
     <string name="t_o_h_a_n">TẠO HÓA ĐƠN</string>
+    <string name="inventory">Inventory statistics</string>
+    <string name="stock_out">Stock out statistics</string>
+    <string name="tu_ngay">Từ ngày</string>
+    <string name="den_ngay">Đến ngày</string>
+    <string name="chon_ngay">Chọn ngày</string>
+    <string name="hint_ngay">dd/MM/yyyy</string>
 </resources>

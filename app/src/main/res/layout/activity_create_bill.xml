@@ -206,19 +206,23 @@
             android:text=""
             android:textColor="#4C4949"
             android:textSize="18dp" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCreateTheBill"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_below="@id/line10"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:fontFamily="@font/sen"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
             android:backgroundTint="#7A156C73"
-            android:layout_margin="0dp"
+            android:fontFamily="@font/sen"
             android:text="@string/l_u"
-            android:textStyle="bold"
             android:textSize="18sp"
-            app:cornerRadius="0dp"/>
+            android:textStyle="bold"
+            app:cornerRadius="0dp" />
     </RelativeLayout>
 </RelativeLayout>
