@@ -25,6 +25,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.ProductListActivity;
 import com.longthph30891.duan1_qlkhohang.Adapter.CustomSpinnerAdapter;
 import com.longthph30891.duan1_qlkhohang.Model.Product;
@@ -45,7 +47,7 @@ public class CreateProduct_Activity extends AppCompatActivity {
     Context context = this;
     String username, idUser;
     String selectedProductType;
-    private String selectedImageUrl = "";
+    private Uri selectedImageUrl = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,10 +134,9 @@ public class CreateProduct_Activity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String name = binding.edAddName.getText().toString();
         String priceStr = binding.edAddPrice.getText().toString();
-        String quantityStr = binding.edAddQuantity.getText().toString();
         String date = dateFormat.format(new Date());
 
-        if (name.isEmpty() || priceStr.isEmpty() || quantityStr.isEmpty() ||  selectedImageUrl.isEmpty()) {
+        if (name.isEmpty() || priceStr.isEmpty() || selectedImageUrl == null) {
             if (name.isEmpty()) {
                 binding.inAddName.setError("Vui lòng không để trống tên sản phẩm!");
             } else {
@@ -148,13 +149,7 @@ public class CreateProduct_Activity extends AppCompatActivity {
                 binding.inAddPrice.setError(null);
             }
 
-            if (quantityStr.isEmpty()) {
-                binding.inAddQuantity.setError("Vui lòng không để trống số lượng");
-            } else {
-                binding.inAddQuantity.setError(null);
-            }
-
-            if (selectedImageUrl.isEmpty()) {
+            if (selectedImageUrl == null) {
                 Toast.makeText(this, "Vui lòng chọn ảnh sản phẩm", Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -166,35 +161,36 @@ public class CreateProduct_Activity extends AppCompatActivity {
                 return;
             }
 
-            try {
-                quantity = Integer.parseInt(quantityStr);
-            } catch (NumberFormatException e) {
-                binding.inAddQuantity.setError("Số lượng phải là số nguyên");
-                return;
-            }
-
             if (price < 0) {
                 binding.inAddPrice.setError("Giá sản phẩm phải lớn hơn 0");
-            } else if (quantity < 0) {
-                binding.inAddQuantity.setError("Số lượng sản phẩm phải lớn hơn 0");
             } else {
                 String id = UUID.randomUUID().toString();
-                Product pd = new Product(id, name, quantity, price, selectedImageUrl, date, idUser,selectedProductType);
-                HashMap<String, Object> mapPD = pd.converHashMap();
-                database.collection("Product").document(id).set(mapPD).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(context, "Thêm sản phẩm " + name + " thành công", Toast.LENGTH_SHORT).show();
-                        binding.imgProduct.setImageResource(R.drawable.img);
-                        binding.edAddName.setText("");
-                        binding.edAddPrice.setText("");
-                        binding.edAddQuantity.setText("");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(context, "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
-                    }
+
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference reference = storage.getReference();
+                StorageReference imageRef = reference.child("Image Product");
+                StorageReference image = imageRef.child(name + " .jpg");
+                image.putFile(selectedImageUrl).addOnSuccessListener(taskSnapshot -> {
+                    image.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String img = uri.toString();
+                        Product pd = new Product(id, name, 0, price, img, date, idUser,selectedProductType);
+                        HashMap<String, Object> mapPD = pd.converHashMap();
+                        database.collection("Product").document(id).set(mapPD).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(context, "Thêm sản phẩm " + name + " thành công", Toast.LENGTH_SHORT).show();
+                                binding.imgProduct.setImageResource(R.drawable.img);
+                                binding.edAddName.setText("");
+                                binding.edAddPrice.setText("");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(context, "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    });
+
                 });
 
             }
@@ -205,11 +201,10 @@ public class CreateProduct_Activity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // Thay đổi đoạn mã trong phương thức onActivityResult
-        if (resultCode == RESULT_OK && data != null) {
-            Uri uri = data.getData();
-            if (binding.imgProduct != null) {
-                binding.imgProduct.setImageURI(uri);
-                selectedImageUrl = uri.toString(); // Chuyển đổi sang chuỗi, vì bạn đang sử dụng uri.toString() ở phía trên
+        if(resultCode == RESULT_OK && data != null){
+            selectedImageUrl = data.getData();
+            if(binding.imgProduct != null){
+                binding.imgProduct.setImageURI(selectedImageUrl);
             }
         }
     }
@@ -248,27 +243,6 @@ public class CreateProduct_Activity extends AppCompatActivity {
                     binding.inAddPrice.setError("Vui lòng không để trống giá của sản phẩm");
                 }else{
                     binding.inAddPrice.setError(null);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        binding.edAddQuantity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.length() == 0){
-                    binding.inAddQuantity.setError("Vui lòng không để trống số lượng của sản phẩm");
-                }else{
-                    binding.inAddQuantity.setError(null);
                 }
             }
 

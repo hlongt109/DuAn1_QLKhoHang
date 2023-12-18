@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,6 +25,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.ProductListActivity;
 import com.longthph30891.duan1_qlkhohang.Adapter.CustomSpinnerAdapter;
 import com.longthph30891.duan1_qlkhohang.Model.Product;
@@ -33,16 +36,17 @@ import com.longthph30891.duan1_qlkhohang.databinding.ActivityUpdateProduct2Bindi
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class UpdateProduct_Activity extends AppCompatActivity {
     private ActivityUpdateProduct2Binding binding;
     FirebaseFirestore database;
     Context context = this;
-    private String imgUrlProduct = "";
-    private String tempImageUrl = "";
+    private Uri tempImageUrl = null;
     String idProduct;
-    String username, idUser;
+    String username, idUser,imageproduct;
+    int quantity;
     private Product pd;
     CustomSpinnerAdapter adapterspn;
 
@@ -93,10 +97,11 @@ public class UpdateProduct_Activity extends AppCompatActivity {
         pd = (Product) getIntent().getSerializableExtra("product");
         if (pd != null) {
             // Sử dụng ID từ dữ liệu Intent thay vì cố gắng thiết lập lại nó
-            tempImageUrl = pd.getPhoto();
-            binding.imgUpdateProduct.setImageURI(Uri.parse(tempImageUrl));
+            String avatarUser = pd.getPhoto();
+            Glide.with(this).load(avatarUser).into(binding.imgUpdateProduct);
+            imageproduct = pd.getPhoto();
             binding.edUpdateName.setText(pd.getName());
-            binding.edUpdateQuantity.setText(String.valueOf(pd.getQuantity()));
+            quantity = pd.getQuantity();
             binding.edUpdatePrice.setText(String.valueOf(pd.getPrice()));
             idProduct = pd.getId();
             getProductTypesFromFirestore();
@@ -109,10 +114,9 @@ public class UpdateProduct_Activity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String name = binding.edUpdateName.getText().toString();
         String priceStr = binding.edUpdatePrice.getText().toString();
-        String quantityStr = binding.edUpdateQuantity.getText().toString();
         String date = dateFormat.format(new Date());
 
-        if (name.isEmpty() || priceStr.isEmpty() || quantityStr.isEmpty()) {
+        if (name.isEmpty() || priceStr.isEmpty()) {
             if (name.isEmpty()) {
                 binding.inUpdateName.setError("Vui lòng không để trống tên sản phẩm!");
             } else {
@@ -124,14 +128,8 @@ public class UpdateProduct_Activity extends AppCompatActivity {
             } else {
                 binding.inUpdatePrice.setError(null);
             }
-
-            if (quantityStr.isEmpty()) {
-                binding.inUpdateQuantity.setError("Vui lòng không để trống số lượng");
-            } else {
-                binding.inUpdateQuantity.setError(null);
-            }
         } else {
-            int price, quantity;
+            int price;
             try {
                 price = Integer.parseInt(priceStr);
             } catch (NumberFormatException e) {
@@ -139,25 +137,32 @@ public class UpdateProduct_Activity extends AppCompatActivity {
                 return;
             }
 
-            try {
-                quantity = Integer.parseInt(quantityStr);
-            } catch (NumberFormatException e) {
-                binding.inUpdateQuantity.setError("Số lượng phải là số nguyên");
-                return;
-            }
-
             if (price < 0) {
                 binding.inUpdatePrice.setError("Giá sản phẩm phải lớn hơn 0");
-            } else if (quantity < 0) {
-                binding.inUpdateQuantity.setError("Số lượng sản phẩm phải lớn hơn 0");
-            } else {
+            } else if(tempImageUrl == null){
+                updateNotImg(name,priceStr,date);
+            }else{
+                update(name,tempImageUrl,priceStr,date);
+            }
+        }
+    }
+
+    private void update(String name, Uri imageUrl, String Strprice, String date){
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference reference = storage.getReference();
+        StorageReference imageRef = reference.child("Image Product");
+        StorageReference image = imageRef.child(name + " .jpg");
+        image.putFile(imageUrl).addOnSuccessListener(taskSnapshot -> {
+            image.getDownloadUrl().addOnSuccessListener(uri -> {
+                int price = Integer.parseInt(Strprice);
+                String img = uri.toString();
                 pd.setId(idProduct);
                 pd.setUserID(idUser);
                 pd.setName(name);
                 pd.setQuantity(quantity);
                 pd.setPrice(price);
                 pd.setDate(date);
-                pd.setPhoto(tempImageUrl);
+                pd.setPhoto(img);
 
                 String selectedProductType = (String) binding.spnUpdateProductType.getSelectedItem();
                 pd.setProductType(selectedProductType);
@@ -177,18 +182,49 @@ public class UpdateProduct_Activity extends AppCompatActivity {
                                 Toast.makeText(context, "Cập nhật " + name + " Thất bại", Toast.LENGTH_SHORT).show();
                             }
                         });
-            }
-        }
+            });
+
+        });
+    }
+
+    private void updateNotImg(String name, String StrPrice, String date){
+        int price = Integer.parseInt(StrPrice);
+        pd.setId(idProduct);
+        pd.setUserID(idUser);
+        pd.setName(name);
+        pd.setQuantity(quantity);
+        pd.setPrice(price);
+        pd.setDate(date);
+        pd.setPhoto(imageproduct);
+
+        String selectedProductType = (String) binding.spnUpdateProductType.getSelectedItem();
+        pd.setProductType(selectedProductType);
+
+        Log.d("HashMap Data", pd.converHashMap().toString());
+        database.collection("Product").document(pd.getId())
+                .update(pd.converHashMap())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(context, "Cập nhật " + name + " Thành công", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(UpdateProduct_Activity.this, ProductListActivity.class));
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "Cập nhật " + name + " Thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // Thay đổi đoạn mã trong phương thức onActivityResult
         if(resultCode == RESULT_OK && data != null){
-            Uri uri = data.getData();
+            tempImageUrl = data.getData();
             if(binding.imgUpdateProduct != null){
-                binding.imgUpdateProduct.setImageURI(uri);
-                tempImageUrl = uri.toString(); // Lưu trữ URL mới vào biến tạm thời
+                binding.imgUpdateProduct.setImageURI(tempImageUrl);
             }
         }
     }
