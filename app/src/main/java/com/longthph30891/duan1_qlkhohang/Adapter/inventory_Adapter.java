@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.longthph30891.duan1_qlkhohang.Model.BillDetail;
 import com.longthph30891.duan1_qlkhohang.Model.Product;
 import com.longthph30891.duan1_qlkhohang.R;
 
@@ -24,10 +25,10 @@ import java.util.Locale;
 public class inventory_Adapter extends RecyclerView.Adapter<inventory_Adapter.inventory_ViewHolder>{
 
     private Context context;
-    private ArrayList<Product> list;
+    private ArrayList<BillDetail> list;
     private FirebaseFirestore database;
 
-    public inventory_Adapter(Context context, ArrayList<Product> list, FirebaseFirestore database) {
+    public inventory_Adapter(Context context, ArrayList<BillDetail> list, FirebaseFirestore database) {
         this.context = context;
         this.list = list;
         this.database = database;
@@ -43,13 +44,13 @@ public class inventory_Adapter extends RecyclerView.Adapter<inventory_Adapter.in
 
     @Override
     public void onBindViewHolder(@NonNull inventory_ViewHolder holder, int position) {
-        Product pd = list.get(position);
+        BillDetail pd = list.get(position);
 
-        Glide.with(context).load(pd.getPhoto())
+        Glide.with(context).load(pd.getImageProduct())
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .into(holder.imgIventory);
 
-        holder.name_Inventory.setText(pd.getName());
+        holder.name_Inventory.setText(pd.getNameProduct());
         holder.quantity_Inventory.setText(String.valueOf(pd.getQuantity()));
 
         NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
