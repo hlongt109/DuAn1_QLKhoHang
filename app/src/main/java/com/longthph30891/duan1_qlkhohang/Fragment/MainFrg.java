@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,6 @@ import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.P
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.ProductTypeListActivity;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.UserListActivity;
 import com.longthph30891.duan1_qlkhohang.DAO.userDAO;
-import com.longthph30891.duan1_qlkhohang.R;
 import com.longthph30891.duan1_qlkhohang.databinding.FragmentMainFrgBinding;
 public class MainFrg extends Fragment {
     private FragmentMainFrgBinding binding;

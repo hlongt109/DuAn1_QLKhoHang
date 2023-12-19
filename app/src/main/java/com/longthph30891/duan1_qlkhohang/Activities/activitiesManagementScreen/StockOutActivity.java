@@ -1,26 +1,25 @@
-package com.longthph30891.duan1_qlkhohang.Fragment;
+package com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,7 +29,7 @@ import com.longthph30891.duan1_qlkhohang.Adapter.StockOutAdapter;
 import com.longthph30891.duan1_qlkhohang.Model.Bill;
 import com.longthph30891.duan1_qlkhohang.Model.StockOut;
 import com.longthph30891.duan1_qlkhohang.R;
-import com.longthph30891.duan1_qlkhohang.databinding.FragmentStockOutFrgBinding;
+import com.longthph30891.duan1_qlkhohang.databinding.ActivityStockOutBinding;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,25 +38,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class StockOutFrg extends Fragment {
-    private FragmentStockOutFrgBinding binding;
-    private Toolbar toolbar;
+public class StockOutActivity extends AppCompatActivity {
+    private ActivityStockOutBinding binding;
     private FirebaseFirestore firestore;
     private StockOutAdapter adapter;
     ArrayList<StockOut> list = new ArrayList<>();
     private int getDay, getMonth, getYear;
+    Context context = this;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-    public StockOutFrg() {
-        // Required empty public constructor
-    }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        binding = FragmentStockOutFrgBinding.inflate(inflater, container, false);
-
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityStockOutBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        initView();
         DatePickerDialog.OnDateSetListener dateTuNgay = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -87,7 +82,7 @@ public class StockOutFrg extends Fragment {
                 getDay = calendar.get(Calendar.DAY_OF_MONTH);
                 getMonth = calendar.get(Calendar.MONTH);
                 getYear = calendar.get(Calendar.YEAR);
-                DatePickerDialog dialog = new DatePickerDialog(getContext(), 0, dateTuNgay, getYear, getMonth, getDay);
+                DatePickerDialog dialog = new DatePickerDialog(context, 0, dateTuNgay, getYear, getMonth, getDay);
                 dialog.show();
             }
         });
@@ -99,16 +94,15 @@ public class StockOutFrg extends Fragment {
                 getDay = calendar.get(Calendar.DAY_OF_MONTH);
                 getMonth = calendar.get(Calendar.MONTH);
                 getYear = calendar.get(Calendar.YEAR);
-                DatePickerDialog dialog = new DatePickerDialog(getContext(), 0, dateDenNgay, getYear, getMonth, getDay);
+                DatePickerDialog dialog = new DatePickerDialog(context, 0, dateDenNgay, getYear, getMonth, getDay);
                 dialog.show();
             }
         });
-
         String tuNgay = binding.edTuNgay.getText().toString();
         String denNgay = binding.edDenNgay.getText().toString();
         firestore = FirebaseFirestore.getInstance();
 
-        adapter = new StockOutAdapter(getActivity(), list, firestore);
+        adapter = new StockOutAdapter(context,list,firestore);
         listenerDB(tuNgay, denNgay);
         binding.btnTimKiem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,20 +110,19 @@ public class StockOutFrg extends Fragment {
                 String tuNgay = binding.edTuNgay.getText().toString();
                 String denNgay = binding.edDenNgay.getText().toString();
                 if (check(tuNgay, denNgay, binding.edTuNgay, binding.edDenNgay)) {
-                    binding.rcvStockOut.setLayoutManager(new GridLayoutManager(getContext(), 1));
+                    binding.rcvStockOut.setLayoutManager(new GridLayoutManager(context, 1));
                     binding.rcvStockOut.setAdapter(adapter);
                 }
 
             }
         });
 
-        return binding.getRoot();
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar_stock_out);
+    private void initView() {
+        setSupportActionBar(binding.toolbarStockOut);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void listenerDB(String tuNgay, String denNgay) {
@@ -193,6 +186,13 @@ public class StockOutFrg extends Fragment {
                 });
     }
 
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
+
     public boolean check(String tDay, String dDay, EditText edTN, EditText edDN) {
 
         if (TextUtils.isEmpty(tDay) || TextUtils.isEmpty(dDay))
@@ -234,7 +234,7 @@ public class StockOutFrg extends Fragment {
             }
         } catch (ParseException e) {
             e.printStackTrace();
-            Toast.makeText(getActivity(), "Lỗi ngày tháng", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Lỗi ngày tháng", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
