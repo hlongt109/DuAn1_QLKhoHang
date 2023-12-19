@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -138,6 +139,8 @@ public class CreateBillActivity extends AppCompatActivity {
     }
 
     private void addBill(Bill bill) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String currentDate = simpleDateFormat.format(new Date());
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection("Bill").document(bill.getId()).set(bill)
                 .addOnCompleteListener(task -> {
@@ -152,6 +155,7 @@ public class CreateBillActivity extends AppCompatActivity {
                             billDetail.setPrice(item.getPriceProduct());
                             billDetail.setImageProduct(item.getImageProduct());
                             billDetail.setNameProduct(item.getNameProduct());
+                            billDetail.setCreatedDate(currentDate);
                             addBillDetails(billDetail);
                         }
                         updateProductQuantities(bill);
