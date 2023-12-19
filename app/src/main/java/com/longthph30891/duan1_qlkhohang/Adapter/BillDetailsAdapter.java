@@ -66,20 +66,9 @@ public class BillDetailsAdapter extends RecyclerView.Adapter<BillDetailsAdapter.
                 cartInterface.onIncreaseClick(position);
             }
         });
-//        currentQuantityOfProduct(cart, new quantityCallBack() {
-//            @Override
-//            public void onSuccess(long currentQuantity) {
-//                if(Integer.parseInt(holder.binding.txtQuantity.getText().toString()) > currentQuantity){
-//                    Toast.makeText(context, "Đã đạt số lượng tối đa của sản phẩm", Toast.LENGTH_SHORT).show();
-//                    holder.binding.txtQuantity.setText(String.valueOf(currentQuantity));
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//
-//            }
-//        });
+        holder.binding.btnDeleteProduct.setOnClickListener(v -> {
+               cartInterface.onDeleteProduct(position);
+        });
     }
 
     @Override

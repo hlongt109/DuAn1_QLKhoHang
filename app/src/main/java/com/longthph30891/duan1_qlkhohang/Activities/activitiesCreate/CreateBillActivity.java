@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -92,8 +91,13 @@ public class CreateBillActivity extends AppCompatActivity {
 
             @Override
             public void onDecreaseClick(int position) {
-
                 isDecreaseClick(position);
+            }
+
+            @Override
+            public void onDeleteProduct(int position) {
+                Cart cartRemove = list.get(position);
+                removeProductFromCart(cartRemove);
             }
         });
     }
@@ -355,13 +359,11 @@ public class CreateBillActivity extends AppCompatActivity {
         deleteAllItemsInCart();
 
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         deleteAllItemsInCart();
     }
-
     private void deleteAllItemsInCart() {
         SharedPreferences s = getSharedPreferences("ReLogin.txt", MODE_PRIVATE);
         String user = s.getString("usn", "");
