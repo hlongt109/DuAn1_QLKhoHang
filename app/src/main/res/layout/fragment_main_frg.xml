@@ -44,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Hi Long Thien Phong"
+                android:fontFamily="@font/sen"
                 android:textSize="25sp"
                 android:textStyle="bold"
                 android:textColor="#353D68"
@@ -54,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Welcome to Warehouse Management Application"
+                android:fontFamily="@font/sen"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="#6B4B71"
@@ -64,24 +66,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Management"
-        android:textColor="#000"
+        android:fontFamily="@font/sen"
+        android:textColor="#232323"
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_below="@id/headerView"
         android:layout_marginTop="60dp"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginHorizontal="20dp"
         android:id="@+id/Management"/>
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/Management"
-        android:rowCount="1"
-        android:columnCount="4"
+        android:rowCount="2"
+        android:columnCount="2"
         android:id="@+id/GridMenu1">
         <androidx.cardview.widget.CardView
             android:id="@+id/nav_Ql_Users"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
             android:layout_row="0"
             android:layout_column="0"
             android:layout_gravity="fill"
@@ -89,6 +92,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
             app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true"
             app:cardElevation="10dp">
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -97,20 +101,22 @@
                 android:gravity="center"
                 android:layout_gravity="center_vertical|center_horizontal">
                 <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:src="@drawable/uss"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#6A4B70"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/sen"
                     android:text="Users"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             android:id="@+id/nav_Ql_ProductType"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
             android:layout_row="0"
             android:layout_column="1"
             android:layout_gravity="fill"
@@ -118,6 +124,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
             app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true"
             app:cardElevation="10dp">
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -126,142 +133,31 @@
                 android:gravity="center"
                 android:layout_gravity="center_vertical|center_horizontal">
                 <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:src="@drawable/boxess"
                     android:id="@+id/productType"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#6A4B70"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/sen"
                     android:text="Product type"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             android:id="@+id/nav_Ql_Products"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_row="0"
-            android:layout_column="2"
-            android:layout_gravity="fill"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="10dp">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_gravity="center_vertical|center_horizontal">
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/box"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#6A4B70"
-                    android:text="Products"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:id="@+id/nav_Ql_Bill"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_row="0"
-            android:layout_column="3"
-            android:layout_gravity="fill"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="10dp">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_gravity="center_vertical|center_horizontal">
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/bill"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#6A4B70"
-                    android:text="Bills"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </GridLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Statistical"
-        android:textColor="#000"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:layout_below="@id/GridMenu1"
-        android:layout_marginTop="50dp"
-        android:layout_marginHorizontal="10dp"
-        android:id="@+id/Statistical"/>
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Statistical"
-        android:rowCount="1"
-        android:columnCount="4"
-        android:id="@+id/gridView2">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/nav_Ql_StockOut"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_row="0"
-            android:layout_rowWeight="1"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_row="1"
             android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:layout_gravity="fill"
-            android:layout_margin="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="10dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="45dp"
-                    android:src="@drawable/stock_out" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#6A4B70"
-                    android:text="Stock Out"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:id="@+id/nav_Ql_Inventory"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_row="0"
-            android:layout_column="1"
             android:layout_gravity="fill"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
             app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true"
             app:cardElevation="10dp">
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -271,32 +167,48 @@
                 android:layout_gravity="center_vertical|center_horizontal">
                 <ImageView
                     android:layout_width="40dp"
-                    android:layout_height="45dp"
-                    android:src="@drawable/inventory"/>
+                    android:layout_height="40dp"
+                    android:src="@drawable/box"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#6A4B70"
-                    android:text="Inventory"/>
+                    android:textSize="18sp"
+                    android:fontFamily="@font/sen"
+                    android:text="Products"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
-            android:backgroundTint="#c6dde7"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_row="0"
-            android:layout_column="2"
+            android:id="@+id/nav_Ql_Bill"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_row="1"
+            android:layout_column="1"
             android:layout_gravity="fill"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1"/>
-        <androidx.cardview.widget.CardView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:backgroundTint="#c6dde7"
-            android:layout_row="0"
-            android:layout_column="3"
-            android:layout_gravity="fill"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"/>
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="10dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_gravity="center_vertical|center_horizontal">
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/bill"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#6A4B70"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/sen"
+                    android:text="Bills"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </GridLayout>
 </RelativeLayout>
