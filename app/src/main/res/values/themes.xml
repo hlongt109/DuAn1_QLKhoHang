@@ -6,4 +6,5 @@
     </style>
 
     <style name="Theme.DuAn1_QLKhoHang" parent="Base.Theme.DuAn1_QLKhoHang" />
+    <style name="theme_CardView" parent="Theme.MaterialComponents.DayNight.NoActionBar"></style>
 </resources>
