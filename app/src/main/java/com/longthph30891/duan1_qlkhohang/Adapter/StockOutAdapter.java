@@ -50,11 +50,11 @@ public class StockOutAdapter extends RecyclerView.Adapter<StockOutAdapter.viewHo
 
     @Override
     public void onBindViewHolder(@NonNull viewHolep holder, int position) {
-//        DecimalFormat decimalFormat = new DecimalFormat("#,###.###");
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.### đ");
         StockOut stockOut = list.get(position);
         Glide.with(context).load(stockOut.getImageProduct()).into(holder.imgAnh);
         holder.tvTenSP.setText(stockOut.getNameProduct());
-        holder.tvTienSP.setText(String.valueOf(stockOut.getPrice()));
+        holder.tvTienSP.setText(decimalFormat.format(stockOut.getPrice()));
         holder.tvSoLuong.setText(String.valueOf(stockOut.getQuantity()));
 //        Log.d("tiensp", String.valueOf(list.get(position).getPriceProduct()));
     }

@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +22,10 @@ import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.P
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.StockOutActivity;
 import com.longthph30891.duan1_qlkhohang.Activities.activitiesManagementScreen.UserListActivity;
 import com.longthph30891.duan1_qlkhohang.DAO.userDAO;
+import com.longthph30891.duan1_qlkhohang.R;
 import com.longthph30891.duan1_qlkhohang.databinding.FragmentMainFrgBinding;
+import com.longthph30891.duan1_qlkhohang.databinding.FragmentStockOutFrgBinding;
+
 public class MainFrg extends Fragment {
     private FragmentMainFrgBinding binding;
     private userDAO dao = new userDAO();
@@ -54,8 +59,7 @@ public class MainFrg extends Fragment {
             startActivity(intent);
         });
         binding.navQlStockOut.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), StockOutActivity.class);
-            startActivity(intent);
+
         });
     }
     public void display(){
