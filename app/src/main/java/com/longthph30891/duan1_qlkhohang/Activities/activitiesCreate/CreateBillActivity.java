@@ -138,6 +138,8 @@ public class CreateBillActivity extends AppCompatActivity {
     }
 
     private void addBill(Bill bill) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String date = dateFormat.format(new Date());
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection("Bill").document(bill.getId()).set(bill)
                 .addOnCompleteListener(task -> {
@@ -152,6 +154,7 @@ public class CreateBillActivity extends AppCompatActivity {
                             billDetail.setPrice(item.getPriceProduct());
                             billDetail.setImageProduct(item.getImageProduct());
                             billDetail.setNameProduct(item.getNameProduct());
+                            billDetail.setCreatedDate(date);
                             addBillDetails(billDetail);
                         }
                         updateProductQuantities(bill);

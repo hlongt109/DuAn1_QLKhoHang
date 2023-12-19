@@ -132,9 +132,9 @@ public class CreateProduct_Activity extends AppCompatActivity {
 
     private void add_product() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String date = dateFormat.format(new Date());
         String name = binding.edAddName.getText().toString();
         String priceStr = binding.edAddPrice.getText().toString();
-        String date = dateFormat.format(new Date());
 
         if (name.isEmpty() || priceStr.isEmpty() || selectedImageUrl == null) {
             if (name.isEmpty()) {

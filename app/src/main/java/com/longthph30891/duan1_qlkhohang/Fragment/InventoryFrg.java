@@ -3,6 +3,7 @@ package com.longthph30891.duan1_qlkhohang.Fragment;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -18,20 +19,38 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.longthph30891.duan1_qlkhohang.Adapter.inventory_Adapter;
+import com.longthph30891.duan1_qlkhohang.Model.Bill;
 import com.longthph30891.duan1_qlkhohang.Model.BillDetail;
 import com.longthph30891.duan1_qlkhohang.Model.Product;
 import com.longthph30891.duan1_qlkhohang.R;
 import com.longthph30891.duan1_qlkhohang.databinding.FragmentInventoryFrgBinding;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class InventoryFrg extends Fragment {
 
@@ -72,13 +91,6 @@ public class InventoryFrg extends Fragment {
                 TextView EndDay = dialog.findViewById(R.id.EndDay);
                 Button btnLatch = dialog.findViewById(R.id.btn_Latch);
 
-                btnLatch.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-
                 StartDay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -111,6 +123,23 @@ public class InventoryFrg extends Fragment {
                     }
                 });
 
+                btnLatch.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String startDateText = StartDay.getText().toString();
+                        String endDateText = EndDay.getText().toString();
+
+                        // Kiểm tra xem chuỗi ngày tháng đã chọn có hợp lệ không
+                        if (!startDateText.equals("Từ Ngày") && !endDateText.equals("Đến Ngày")) {
+                            listenRcv(StartDay, EndDay);
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(requireContext(), "Vui lòng chọn cả ngày bắt đầu và kết thúc.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
                 dialog.show();
             }
         });
@@ -118,45 +147,210 @@ public class InventoryFrg extends Fragment {
         return view;
     }
 
-    private void listenFbFt(){
-        database.collection("BillDetails").addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if(error != null){
-                    return;
-                }
-                if(value != null){
-                    for(DocumentChange dc : value.getDocumentChanges()){
-                        switch (dc.getType()){
-                            case ADDED: // thêm 1 document
-                                dc.getDocument().toObject(BillDetail.class);
-                                list.add(dc.getDocument().toObject(BillDetail.class));
-                                adapter.notifyItemInserted(list.size() - 1);
-                                break;
-                            case MODIFIED: // update 1 document
-                                BillDetail pdUpdate = dc.getDocument().toObject(BillDetail.class);
-                                if(dc.getOldIndex() == dc.getNewIndex()){
-                                    list.set(dc.getOldIndex(), pdUpdate);
-                                    adapter.notifyItemChanged(dc.getOldIndex());
-                                }else{
-                                    list.remove(dc.getOldIndex());
-                                    list.add(pdUpdate);
-                                    adapter.notifyItemMoved(dc.getOldIndex(), dc.getNewIndex());
+    private void listenFbFt() {
+        database.collection("BillDetails")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot billDetailsSnapshot, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            return;
+                        }
+                        if (billDetailsSnapshot != null) {
+                            for (DocumentChange dc : billDetailsSnapshot.getDocumentChanges()) {
+                                switch (dc.getType()) {
+                                    case ADDED: // thêm 1 document
+                                        BillDetail billDetail = dc.getDocument().toObject(BillDetail.class);
+                                        String billId = billDetail.getBillId();
+                                        database.collection("Bill").document(billId)
+                                                .get()
+                                                .addOnSuccessListener(documentSnapshot -> {
+                                                    if (documentSnapshot.exists()) {
+                                                        Bill bill = documentSnapshot.toObject(Bill.class);
+                                                        if (bill != null && bill.getStatus() == 1) {
+                                                            String productId = billDetail.getIdProduct();
+                                                            int quantity = billDetail.getQuantity();
+
+                                                            // Nếu sản phẩm đã tồn tại trong danh sách, cộng dồn quantity
+                                                            boolean isExistingProduct = false;
+                                                            for (BillDetail existingProduct : list) {
+                                                                if (existingProduct.getIdProduct().equals(productId)) {
+                                                                    existingProduct.setQuantity(existingProduct.getQuantity() + quantity);
+                                                                    isExistingProduct = true;
+                                                                    break;
+                                                                }
+                                                            }
+
+                                                            // Nếu sản phẩm chưa tồn tại trong danh sách, thêm mới
+                                                            if (!isExistingProduct) {
+                                                                list.add(billDetail);
+                                                            }
+
+                                                            adapter.notifyDataSetChanged();
+                                                            barchart();
+                                                        }
+                                                    }
+                                                });
+                                        break;
                                 }
-                                break;
-                            case REMOVED: // xóa 1 document
-                                dc.getDocument().toObject(Product.class);
-                                int removedIndex = dc.getOldIndex();
-                                if(removedIndex >= 0 && removedIndex < list.size()){
-                                    list.remove(removedIndex);
-                                    adapter.notifyItemRemoved(removedIndex);
-                                }
-                                break;
+                            }
                         }
                     }
-                }
-            }
-        });
+                });
     }
+
+    private void listenRcv(TextView startDateTV, TextView endDateTV) {
+        String startDate = startDateTV.getText().toString();
+        String endDate = endDateTV.getText().toString();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        // Xóa danh sách hiện tại trước khi thêm các sản phẩm mới
+        list.clear();
+        adapter.notifyDataSetChanged();
+        barchart();
+
+        HashMap<String, Integer> productQuantityMap = new HashMap<>();
+
+        database.collection("BillDetails")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot billDetailsSnapshot, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            return;
+                        }
+                        if (billDetailsSnapshot != null) {
+                            for (DocumentChange dc : billDetailsSnapshot.getDocumentChanges()) {
+                                switch (dc.getType()) {
+                                    case ADDED: // thêm 1 document
+                                        BillDetail billDetail = dc.getDocument().toObject(BillDetail.class);
+                                        Date billDate;
+                                        try {
+                                            billDate = dateFormat.parse(billDetail.getCreatedDate());
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                            continue;
+                                        }
+
+                                        try {
+                                            if (billDate != null && (billDate.after(dateFormat.parse(startDate)) || billDate.equals(dateFormat.parse(startDate))) &&
+                                                    (billDate.before(dateFormat.parse(endDate)) || billDate.equals(dateFormat.parse(endDate)))) {
+                                                String billId = billDetail.getBillId();
+                                                database.collection("Bill").document(billId)
+                                                        .get()
+                                                        .addOnSuccessListener(documentSnapshot -> {
+                                                            if (documentSnapshot.exists()) {
+                                                                Bill bill = documentSnapshot.toObject(Bill.class);
+                                                                if (bill != null && bill.getStatus() == 1) {
+                                                                    String productId = billDetail.getIdProduct();
+                                                                    int quantity = billDetail.getQuantity();
+
+                                                                    // Nếu sản phẩm đã tồn tại trong danh sách, cộng dồn quantity
+                                                                    boolean isExistingProduct = false;
+                                                                    for (BillDetail existingProduct : list) {
+                                                                        if (existingProduct.getIdProduct().equals(productId)) {
+                                                                            existingProduct.setQuantity(existingProduct.getQuantity() + quantity);
+                                                                            isExistingProduct = true;
+                                                                            break;
+                                                                        }
+                                                                    }
+
+                                                                    // Nếu sản phẩm chưa tồn tại trong danh sách, thêm mới
+                                                                    if (!isExistingProduct) {
+                                                                        list.add(billDetail);
+                                                                    }
+
+                                                                    adapter.notifyDataSetChanged();
+                                                                    barchart();
+                                                                }
+                                                            }
+                                                        });
+                                            }
+
+                                            if (billDate != null && (billDate.after(dateFormat.parse(startDate)) || billDate.equals(dateFormat.parse(startDate))) &&
+                                                    (billDate.before(dateFormat.parse(endDate)) || billDate.equals(dateFormat.parse(endDate)))) {
+                                                String billId = billDetail.getBillId();
+                                                database.collection("Bill").document(billId)
+                                                        .get()
+                                                        .addOnSuccessListener(documentSnapshot -> {
+                                                            if (documentSnapshot.exists()) {
+                                                                Bill bill = documentSnapshot.toObject(Bill.class);
+                                                                if (bill != null && bill.getStatus() == 0) {
+                                                                    String productId = billDetail.getIdProduct();
+                                                                    int quantity = billDetail.getQuantity();
+
+                                                                    // Nếu sản phẩm đã tồn tại trong danh sách, cộng dồn quantity
+                                                                    boolean isExistingProduct = false;
+                                                                    for (BillDetail existingProduct : list) {
+                                                                        if (existingProduct.getIdProduct().equals(productId)) {
+                                                                            existingProduct.setQuantity(existingProduct.getQuantity() - quantity);
+                                                                            isExistingProduct = true;
+                                                                            break;
+                                                                        }
+                                                                    }
+
+                                                                    // Nếu sản phẩm chưa tồn tại trong danh sách, thêm mới
+                                                                    if (!isExistingProduct) {
+                                                                        list.add(billDetail);
+                                                                    }
+
+                                                                    adapter.notifyDataSetChanged();
+                                                                    barchart();
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        } catch (ParseException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void barchart() {
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<>();
+        ArrayList<Integer> colors = new ArrayList<>(); // Danh sách màu sắc
+
+        for (int i = 0; i < list.size(); i++) {
+            entries.add(new BarEntry(i, list.get(i).getQuantity()));
+            labels.add(list.get(i).getNameProduct());
+            int color = Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
+            colors.add(color);
+        }
+
+        BarChart barChart = binding.barChart;
+
+        BarDataSet dataSet = new BarDataSet(entries, "Label");
+        dataSet.setColors(colors); // Thiết lập màu sắc cho từng cột
+
+        dataSet.setValueTextColor(Color.rgb(0, 0, 0)); // Màu của các giá trị trên cột
+        dataSet.setValueTextColors(colors); // Màu của các giá trị trên cột
+
+        dataSet.setHighLightColor(Color.rgb(255, 140, 0)); // Màu viền khi chọn cột
+        dataSet.setBarShadowColor(Color.rgb(0, 0, 0)); // Màu viền bóng đổ của cột
+
+
+        BarData barData = new BarData(dataSet);
+        barChart.setData(barData);
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // Đặt vị trí của XAxis ở dưới biểu đồ
+        xAxis.setGranularity(1f); // Đặt độ rộng giữa các cột
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels)); // Thiết lập nhãn từ danh sách labels
+
+        Legend legend = barChart.getLegend();
+        legend.setTextColor(Color.BLACK);
+        legend.setTextSize(12f);
+        legend.setForm(Legend.LegendForm.SQUARE);
+
+        // Cập nhật lại biểu đồ sau khi thiết lập dữ liệu mới
+        barChart.invalidate();
+    }
+
+
+
 
 }

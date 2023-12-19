@@ -92,6 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
+                    android:textColor="#FF0000"
                     android:text="30.000.000"
                     android:textSize="15dp"
                     android:textStyle="bold"
