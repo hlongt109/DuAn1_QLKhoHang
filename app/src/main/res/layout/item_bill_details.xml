@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
@@ -11,9 +12,9 @@
         android:id="@+id/imgProduct"
         android:layout_width="115dp"
         android:layout_height="95dp"
+        android:layout_marginEnd="10dp"
         android:adjustViewBounds="true"
         app:cardElevation="10dp"
-        android:layout_marginEnd="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,19 +32,19 @@
         android:id="@+id/txtProductName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
         android:text="Product Name"
         android:textSize="18sp"
-        android:layout_marginStart="10dp"
         app:layout_constraintStart_toEndOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--    <CheckBox-->
-<!--        android:id="@+id/checkBoxSelected"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <!--    <CheckBox-->
+    <!--        android:id="@+id/checkBoxSelected"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <TextView
         android:id="@+id/txtProductPrice"
@@ -57,6 +58,15 @@
         app:layout_constraintStart_toEndOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/txtProductName" />
 
+    <ImageView
+        android:id="@+id/btnDeleteProduct"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/ic_delete"
+        app:tint="#8E8C8C"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <RelativeLayout
         android:id="@+id/layoutQuantity"
         android:layout_width="0dp"
@@ -66,14 +76,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/txtProductPrice">
+
         <TextView
             android:id="@+id/sl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chọn số lượng :"
-            android:layout_marginRight="10dp"
             android:layout_alignParentLeft="true"
-            android:textSize="18sp"/>
+            android:layout_marginRight="10dp"
+            android:text="Chọn số lượng :"
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/imgDecrease"
@@ -84,13 +95,13 @@
 
         <EditText
             android:id="@+id/txtQuantity"
-            android:background="@drawable/khung"
             android:layout_width="wrap_content"
-            android:layout_toEndOf="@id/imgDecrease"
-            android:layout_toStartOf="@id/imgIncrease"
-            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_toStartOf="@id/imgIncrease"
+            android:layout_toEndOf="@id/imgDecrease"
+            android:background="@drawable/khung"
+            android:gravity="center"
             android:paddingVertical="5dp"
             android:text="1"
             android:textSize="16sp" />
@@ -100,7 +111,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/ic_add"/>
+            android:background="@drawable/ic_add" />
     </RelativeLayout>
 
     <!-- Guideline để tạo không gian giữa ảnh và nội dung văn bản -->

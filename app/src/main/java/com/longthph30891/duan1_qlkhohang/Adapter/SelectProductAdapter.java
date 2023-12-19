@@ -5,8 +5,10 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -34,8 +36,9 @@ public class SelectProductAdapter extends RecyclerView.Adapter<SelectProductAdap
         this.context = context;
         this.list = list;
         this.database = database;
-        checkedItem = new ArrayList<>(Collections.nCopies(list.size(),false));
+        checkedItem = new ArrayList<>(Collections.nCopies(list.size(), false));
     }
+
     @NonNull
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -51,7 +54,7 @@ public class SelectProductAdapter extends RecyclerView.Adapter<SelectProductAdap
         holder.setData(product);
         holder.binding.chkCheck.setOnCheckedChangeListener(((buttonView, isChecked) -> {
             if (isChecked) {
-                saveDataToCart(product);
+                saveDataToCart(product,holder.binding.chkCheck);
             } else {
                 removeProductFromCart(product);
             }
@@ -84,31 +87,95 @@ public class SelectProductAdapter extends RecyclerView.Adapter<SelectProductAdap
             binding.tvQuantity.setText(String.valueOf(product.getQuantity()));
         }
     }
-    private void saveDataToCart(Product selectedProduct) {
-        SharedPreferences s = context.getSharedPreferences("ReLogin.txt",context.MODE_PRIVATE);
-        String usernameUser = s.getString("usn","");
+
+    private void saveDataToCart(Product selectedProduct, CheckBox checkBox) {
+        SharedPreferences s = context.getSharedPreferences("ReLogin.txt", context.MODE_PRIVATE);
+        String usernameUser = s.getString("usn", "");
+        database.collection("Cart")
+                .whereEqualTo("idProduct", selectedProduct.getId())
+                .whereEqualTo("usernameUser", usernameUser)
+                .whereEqualTo("checked", true)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        boolean productInCart = !task.getResult().isEmpty();
+                        if (productInCart) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setMessage("Sản phẩm đã trong hóa đơn.\n" +
+                                    "Bạn có muốn thêm không ?");
+                            builder.setNegativeButton("Không",(dialog, which) -> {
+                                checkBox.setChecked(false);
+                               dialog.cancel();
+                            });
+                            builder.setPositiveButton("Có",(dialog, which) -> {
+                                updateQuantityInCart(selectedProduct);
+                                dialog.dismiss();
+                            });
+                            builder.create().show();
+                        } else {
+                            addNewCartItem(selectedProduct);
+                        }
+                    }
+                });
+    }
+
+    private void addNewCartItem(Product selectedProduct) {
+        SharedPreferences s = context.getSharedPreferences("ReLogin.txt", context.MODE_PRIVATE);
+        String usernameUser = s.getString("usn", "");
         String id = UUID.randomUUID().toString();
-        Cart cartItem = new Cart(id,
+        Cart cartItem = new Cart(
+                id,
                 selectedProduct.getId(),
                 usernameUser,
                 selectedProduct.getPhoto(),
                 selectedProduct.getName(),
                 selectedProduct.getPrice(),
                 1, true);
-        database.collection("Cart").document(id).set(cartItem).addOnSuccessListener(command -> {
 
-        }).addOnFailureListener(e -> {
+        database.collection("Cart").document(id).set(cartItem)
+                .addOnSuccessListener(command -> {
 
-        });
+                })
+                .addOnFailureListener(e -> {
+
+                });
     }
+
+    private void updateQuantityInCart(Product selectedProduct) {
+        SharedPreferences s = context.getSharedPreferences("ReLogin.txt", context.MODE_PRIVATE);
+        String usernameUser = s.getString("usn", "");
+
+        database.collection("Cart")
+                .whereEqualTo("idProduct", selectedProduct.getId())
+                .whereEqualTo("usernameUser", usernameUser)
+                .whereEqualTo("checked", true)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Cart existingCartItem = document.toObject(Cart.class);
+                            int newQuantity = existingCartItem.getQuantity() + 1;
+                            database.collection("Cart").document(document.getId())
+                                    .update("quantity", newQuantity)
+                                    .addOnSuccessListener(command -> {
+
+                                    })
+                                    .addOnFailureListener(e -> {
+
+                                    });
+                        }
+                    }
+                });
+    }
+
     private void removeProductFromCart(Product selectedProduct) {
         database.collection("Cart")
-                .whereEqualTo("idProduct",selectedProduct.getId())
-                .whereEqualTo("usernameUser",selectedProduct.getUserID())
-                .whereEqualTo("checked",true)
+                .whereEqualTo("idProduct", selectedProduct.getId())
+                .whereEqualTo("usernameUser", selectedProduct.getUserID())
+                .whereEqualTo("checked", true)
                 .get().addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        for (QueryDocumentSnapshot document: task.getResult()){
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
                             database.collection("Cart").document(document.getId())
                                     .delete()
                                     .addOnSuccessListener(command -> {

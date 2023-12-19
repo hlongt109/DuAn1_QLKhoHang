@@ -44,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Hi Long Thien Phong"
+                android:fontFamily="@font/sen"
                 android:textSize="25sp"
                 android:textStyle="bold"
                 android:textColor="#353D68"
@@ -54,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Welcome to Warehouse Management Application"
+                android:fontFamily="@font/sen"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="#6B4B71"
@@ -64,12 +66,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Management"
-        android:textColor="#000"
+        android:fontFamily="@font/sen"
+        android:textColor="#232323"
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_below="@id/headerView"
         android:layout_marginTop="60dp"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginHorizontal="20dp"
         android:id="@+id/Management"/>
     <GridLayout
         android:layout_width="match_parent"
@@ -98,13 +101,15 @@
                 android:gravity="center"
                 android:layout_gravity="center_vertical|center_horizontal">
                 <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:src="@drawable/uss"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#6A4B70"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/sen"
                     android:text="Users"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -128,14 +133,16 @@
                 android:gravity="center"
                 android:layout_gravity="center_vertical|center_horizontal">
                 <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:src="@drawable/boxess"
                     android:id="@+id/productType"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#6A4B70"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/sen"
                     android:text="Product type"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -159,13 +166,15 @@
                 android:gravity="center"
                 android:layout_gravity="center_vertical|center_horizontal">
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/box"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#6A4B70"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/sen"
                     android:text="Products"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -189,13 +198,15 @@
                 android:gravity="center"
                 android:layout_gravity="center_vertical|center_horizontal">
                 <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:src="@drawable/bill"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#6A4B70"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/sen"
                     android:text="Bills"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
