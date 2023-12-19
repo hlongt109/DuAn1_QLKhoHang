@@ -34,39 +34,13 @@ public class BillListActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        setSupportActionBar(binding.toolbarBill);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         database = FirebaseFirestore.getInstance();
         ListenerDB();
         adapter = new billAdapter(this,list,database);
         binding.rcvBills.setLayoutManager(new LinearLayoutManager(this));
         binding.rcvBills.setAdapter(adapter);
-    }
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.sub_menu,menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId()==R.id.item_add){
-            Intent intent = new Intent(BillListActivity.this, CreateBillActivity.class);
-            startActivity(intent);
-        }
-        if(item.getItemId()==R.id.item_search){
-            Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
-        return true;
+        binding.btnBack.setOnClickListener(v -> startActivity(new Intent(this, MainActivity.class)));
+        binding.btnAddNew.setOnClickListener(v -> startActivity(new Intent(BillListActivity.this, CreateBillActivity.class)));
     }
     private void ListenerDB(){
         database.collection("Bill").addSnapshotListener((value, error) -> {

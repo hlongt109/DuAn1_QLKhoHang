@@ -94,6 +94,12 @@ public class CreateBillActivity extends AppCompatActivity {
 
                 isDecreaseClick(position);
             }
+
+            @Override
+            public void onDeleteProduct(int position) {
+                Cart cartRemove = list.get(position);
+                removeProductFromCart(cartRemove);
+            }
         });
     }
 
